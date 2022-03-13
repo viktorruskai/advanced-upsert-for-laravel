@@ -21,7 +21,7 @@ echo ">> Migrate"
 php artisan migrate
 
 echo ">> Test command"
-php artisan test:upsert
+php artisan
 
 #
 #echo "Add package from source"

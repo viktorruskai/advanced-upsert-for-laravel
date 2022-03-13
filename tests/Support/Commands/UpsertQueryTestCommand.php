@@ -10,7 +10,7 @@ class UpsertQueryTestCommand extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'test:upsert';
+    protected $signature = 'upsert:test';
 
     /**
      * The console command description.
