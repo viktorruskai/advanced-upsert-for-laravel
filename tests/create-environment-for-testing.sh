@@ -13,11 +13,16 @@ composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ./laravel
 cd ./laravel
 
 echo ">> Copy all required files"
-cp ../tests/Support/Models/* ./app/Models
-cp ../tests/Support/Migrations/* ./database/migrations
+cp ../tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
+cp ../tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
+cp ../tests/Support/Commands/* ./app/Console/Commands && echo "\xE2\x9C\x94 Commands" || exit 1
 
 echo ">> Migrate"
 php artisan migrate
+
+echo ">> Test command"
+php artisan test:upsert
+
 #
 #echo "Add package from source"
 #sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../advanced-upsert-for-laravel" } ],|' -i composer.json || exit 1
