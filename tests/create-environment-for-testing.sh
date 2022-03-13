@@ -22,7 +22,9 @@ php artisan migrate
 
 echo ">> Test command"
 php artisan
-cd ./app/
+cd ./app/Console
+ls -la
+cd ./Commands
 ls -la
 
 #
