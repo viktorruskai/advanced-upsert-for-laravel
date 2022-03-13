@@ -1,10 +1,10 @@
-name: PHPStan
+name: PHPUnit
 
 on: push
 
 jobs:
   phpstan:
-    name: PHPStan check
+    name: PHPUnit
     runs-on: ubuntu-latest
     container:
       image: kirschbaumdevelopment/laravel-test-runner:7.4
@@ -19,4 +19,4 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-scripts
       - name: Run command
-        run: ./tests/create-environment-for-testing.sh ^8.0
+        run: tests/create-environment-for-testing.sh ^8.0
