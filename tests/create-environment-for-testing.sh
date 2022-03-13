@@ -13,6 +13,8 @@ composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../larave
 cd ../laravel
 
 echo ">> Migrate"
+ls -la
+cp ../tests/Support/* ./database/migrations
 php artisan migrate
 
 #echo "Add package from source"
