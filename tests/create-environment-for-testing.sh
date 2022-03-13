@@ -9,13 +9,14 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
 fi
 
 echo ">> Install Laravel"
-
-ls -la
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ./laravel || exit 1
 cd ./laravel
 
+echo ">> Copy all required files"
+cp ../tests/Support/Models/* ./app/Models
+cp ../tests/Support/Migrations/* ./database/migrations
+
 echo ">> Migrate"
-cp ../tests/Support/* ./database/migrations
 php artisan migrate
 #
 #echo "Add package from source"
