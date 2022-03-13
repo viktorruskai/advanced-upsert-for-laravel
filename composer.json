@@ -1,5 +1,5 @@
 {
-    "name": "viktorruskai/advanced-upsert",
+    "name": "viktorruskai/advanced-upsert-for-laravel",
     "description": "This package contains advanced upsert functionality for Laravel.",
     "type": "library",
     "licence": "MIT",
@@ -19,6 +19,7 @@
         "php": "^7.4"
     },
     "require-dev": {
-        "laravel/framework": "v8.80.0"
+        "laravel/framework": "v8.80.0",
+        "phpstan/phpstan": "^1.4"
     }
 }

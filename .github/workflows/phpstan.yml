@@ -1,0 +1,22 @@
+name: PHPStan
+
+on: push
+
+jobs:
+  phpstan:
+    name: PHPStan check
+    runs-on: ubuntu-latest
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:7.4
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Install composer dependencies
+        run: composer install --no-scripts
+      - name: PHPStan Static Analysis Tool
+        run: ./vendor/bin/phpstan analyse -l 9 src
