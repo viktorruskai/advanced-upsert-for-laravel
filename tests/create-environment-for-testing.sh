@@ -9,14 +9,15 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
 fi
 
 echo ">> Install Laravel"
+ls -la
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
 
 echo ">> Migrate"
-cp ../../tests/Support/* ./database/migrations
+cp ./../../tests/Support/* ./database/migrations
 php artisan migrate
-
+#
 #echo "Add package from source"
 #sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../advanced-upsert-for-laravel" } ],|' -i composer.json || exit 1
-#composer require --dev "viktorruskai/advanced-upser-for-laravel:*" || exit 1
+#composer require "viktorruskai/advanced-upser-for-laravel:*" || exit 1
 
