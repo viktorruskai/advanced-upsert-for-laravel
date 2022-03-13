@@ -22,6 +22,8 @@ php artisan migrate
 
 echo ">> Test command"
 php artisan
+cd ./app/Console/Commands
+ls -la
 
 #
 #echo "Add package from source"
