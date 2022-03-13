@@ -19,4 +19,6 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-scripts
       - name: Run command
-        run: tests/create-environment-for-testing.sh ^8.0
+        run: |
+          chmod +x tests/create-environment-for-testing.sh 
+          tests/create-environment-for-testing.sh ^8.0
