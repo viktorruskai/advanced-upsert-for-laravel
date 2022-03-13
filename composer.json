@@ -1,0 +1,24 @@
+{
+    "name": "viktorruskai/advanced-upsert",
+    "description": "This package contains advanced upsert functionality for Laravel.",
+    "type": "library",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Viktor Ruskai",
+            "email": "viktor@ruskai.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Viktorruskai\\AdvancedUpsert\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "laravel/framework": "v8.80.0"
+    }
+}
