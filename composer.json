@@ -14,12 +14,22 @@
             "Viktorruskai\\AdvancedUpsert\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Viktorruskai\\AdvancedUpsert\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "dev",
     "require": {
         "php": "^7.4"
     },
     "require-dev": {
         "laravel/framework": "v8.80.0",
-        "phpstan/phpstan": "^1.4"
+        "phpstan/phpstan": "^1.4",
+        "phpunit/phpunit": "9.5.x-dev"
+    },
+    "scripts": {
+        "phpstan": "./vendor/bin/phpstan analyse -l 9 src",
+        "tests": "./vendor/bin/phpunit --colors=always"
     }
 }
