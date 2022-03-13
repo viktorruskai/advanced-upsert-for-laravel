@@ -6,6 +6,16 @@ jobs:
   phpstan:
     name: PHPUnit
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     container:
       image: kirschbaumdevelopment/laravel-test-runner:7.4
     steps:
@@ -19,6 +29,13 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-scripts
       - name: Run command
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_DATABASE: test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
         run: |
           chmod +x tests/create-environment-for-testing.sh 
           tests/create-environment-for-testing.sh ^8.0

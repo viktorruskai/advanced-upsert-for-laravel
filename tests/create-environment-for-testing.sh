@@ -8,9 +8,11 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
     exit 1
 fi
 
-echo "Install Laravel"
+echo ">> Install Laravel"
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
 cd ../laravel
+
+echo ">> Migrate"
 php artisan migrate
 
 #echo "Add package from source"
