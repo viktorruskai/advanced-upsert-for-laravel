@@ -15,7 +15,7 @@ cd ./laravel
 echo ">> Copy all required files"
 cp ../tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
 cp ../tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
-cp ../tests/Support/Commands/* ./app/Console/Commands && echo "\xE2\x9C\x94 Commands" || exit 1
+cp ../tests/Support/Commands/* ./app/Console/Commands/ && echo "\xE2\x9C\x94 Commands" || exit 1
 
 echo ">> Migrate"
 php artisan migrate
