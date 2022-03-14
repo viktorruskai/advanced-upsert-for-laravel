@@ -27,6 +27,6 @@ class HasUpsertTest extends TestCase
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)->get()->toArray();
 
-        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
+        $this->assertContains($itemActions, $itemActionsFromDatabase);
     }
 }
