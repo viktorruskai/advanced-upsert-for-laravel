@@ -24,7 +24,7 @@ class UpsertQueryTestCommand extends Command
      */
     public function handle(): int
     {
-        $item = Item::factory()->make([
+        $item = Item::factory()->create([
             'id' => 1,
         ]);
 
