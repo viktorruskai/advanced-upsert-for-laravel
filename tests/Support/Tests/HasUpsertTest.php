@@ -29,7 +29,7 @@ class HasUpsertTest extends TestCase
             ->get()
             ->only(['itemId', 'actionName', 'actionDescription', 'actionValue'])
             ->toArray();
-
+dump($itemActionsFromDatabase, '----------------------', $itemActions);
         $this->assertEquals($itemActions, $itemActionsFromDatabase);
     }
 }
