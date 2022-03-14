@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Viktorruskai\AdvancedUpsert;
+namespace ViktorRuskai\AdvancedUpsert;
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Builder;

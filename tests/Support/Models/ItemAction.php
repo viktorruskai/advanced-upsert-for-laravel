@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Viktorruskai\AdvancedUpsert\UpsertQuery;
+use ViktorRuskai\AdvancedUpsert\UpsertQuery;
 
 /**
  * Class ItemAction

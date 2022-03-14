@@ -11,12 +11,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Viktorruskai\\AdvancedUpsert\\": "src/"
+            "ViktorRuskai\\AdvancedUpsert\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Viktorruskai\\AdvancedUpsert\\Tests\\": "tests/"
+            "ViktorRuskai\\AdvancedUpsert\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
