@@ -19,7 +19,7 @@ class HasUpsertTest extends TestCase
 
         $itemActions = ItemAction::factory()->count(20)->make([
             'itemId' => $item->getKey(),
-        ])->unique()->toArray();
+        ])->toArray();
 
         dump(count($itemActions));
 
