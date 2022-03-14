@@ -5,7 +5,7 @@ namespace Tests\Unit;
 
 use App\Models\Item;
 use App\Models\ItemAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class HasUpsertTest extends TestCase
 {
