@@ -26,8 +26,9 @@ dump($itemActions, '///////////////////////');
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
+            ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
+            ->limit(-1)
             ->get()
-            ->only(['itemId', 'actionName', 'actionDescription', 'actionValue'])
             ->toArray();
 dump($itemActionsFromDatabase, '----------------------', $itemActions);
         $this->assertEquals($itemActions, $itemActionsFromDatabase);
