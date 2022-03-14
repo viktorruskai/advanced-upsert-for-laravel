@@ -18,6 +18,7 @@ composer require fakerphp/faker
 echo ">> Copy all required files"
 cp ../tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
 cp ../tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
+cp ../tests/Support/Factories/* ./database/factories && echo "\xE2\x9C\x94 Factories" || exit 1
 mkdir -m755 ./app/Console/Commands
 cp ../tests/Support/Commands/* ./app/Console/Commands && echo "\xE2\x9C\x94 Commands" || exit 1
 
