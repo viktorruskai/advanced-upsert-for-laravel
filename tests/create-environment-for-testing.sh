@@ -12,6 +12,9 @@ echo ">> Install Laravel"
 composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ./laravel || exit 1
 cd ./laravel
 
+echo ">> Install Faker"
+composer require fakerphp/faker
+
 echo ">> Copy all required files"
 cp ../tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
 cp ../tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
@@ -25,11 +28,7 @@ echo ">> Migrate"
 php artisan migrate
 
 echo ">> Test command"
-php artisan
-cd ./app/Console
-ls -la
-cd ./Commands
-ls -la
+php artisan upsert:test
 
 #
 #echo "Add package from source"

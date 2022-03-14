@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Item;
+use App\Models\ItemAction;
 use Illuminate\Console\Command;
 
 class UpsertQueryTestCommand extends Command
@@ -22,6 +24,14 @@ class UpsertQueryTestCommand extends Command
      */
     public function handle(): int
     {
+        $item = Item::factory()->make();
+
+        $itemActions = ItemAction::factory()->count(20)->make([
+            'itemId' => $item->getKey(),
+        ]);
+
+        dump($itemActions);
+
         $this->output->block('I am here...');
         return 0;
     }
