@@ -12,7 +12,7 @@ class HasUpsertTest extends TestCase
 
     public function testBasicUpsert(): void
     {
-        $item = Item::insert([
+        $item = Item::create([
             'name' => 'Test',
             'description' => 'Test description',
         ]);
