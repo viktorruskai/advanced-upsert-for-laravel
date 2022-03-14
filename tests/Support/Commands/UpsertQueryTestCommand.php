@@ -24,20 +24,6 @@ class UpsertQueryTestCommand extends Command
      */
     public function handle(): int
     {
-        $item = Item::factory()->create([
-            'id' => 1,
-        ]);
-
-        $itemActions = ItemAction::factory()->count(20)->make([
-            'itemId' => $item->getKey(),
-        ]);
-
-        ItemAction::upsert($itemActions->unique()->toArray(), ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
-
-        dump('ok');
-
-        ItemAction::where('itemId', 1)->get()->dump();
-
         $this->output->block('I am here...');
         return 0;
     }

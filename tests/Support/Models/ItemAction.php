@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ViktorRuskai\AdvancedUpsert\HasUpsert;
@@ -18,6 +19,7 @@ use ViktorRuskai\AdvancedUpsert\HasUpsert;
  * @property double|null $actionValue
  * @property string $updatedAt
  * @property string $createdAt
+ * @method static Builder where($column, $values, $boolean = 'and', $not = false)
  */
 class ItemAction extends Model
 {
