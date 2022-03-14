@@ -32,7 +32,7 @@ class UpsertQueryTestCommand extends Command
             'itemId' => $item->getKey(),
         ]);
 
-        ItemAction::upsert($itemActions->toArray(), ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
+        ItemAction::upsert($itemActions->unique()->toArray(), ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
         dump('ok');
 
