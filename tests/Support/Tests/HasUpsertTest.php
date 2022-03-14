@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Unit;
 
 use App\Models\Item;
 use App\Models\ItemAction;
@@ -12,9 +12,12 @@ class HasUpsertTest extends TestCase
 
     public function testBasicUpsert(): void
     {
-        $item = Item::factory()->create([
-            'id' => 1,
+        $item = Item::insert([
+            'name' => 'Test',
+            'description' => 'Test description',
         ]);
+
+        dump($item);
 
         $itemActions = ItemAction::factory()->count(20)->make([
             'itemId' => $item->getKey(),
