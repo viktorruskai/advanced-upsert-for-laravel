@@ -25,8 +25,11 @@ class HasUpsertTest extends TestCase
 
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
-        $itemActionsFromDatabase = ItemAction::where('itemId', 1)->get()->toArray();
+        $itemActionsFromDatabase = ItemAction::where('itemId', 1)
+            ->get()
+            ->only(['itemId', 'actionName', 'actionDescription', 'actionValue'])
+            ->toArray();
 
-        $this->assertContains($itemActions, $itemActionsFromDatabase);
+        $this->assertEquals($itemActions, $itemActionsFromDatabase);
     }
 }
