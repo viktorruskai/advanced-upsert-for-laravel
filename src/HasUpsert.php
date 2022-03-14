@@ -9,7 +9,7 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Support\Facades\DB;
 
-trait UpsertQuery
+trait HasUpsert
 {
     /**
      * Insert or update (upsert) with selecting id from another table
@@ -132,7 +132,7 @@ trait UpsertQuery
      */
     protected static function parseValues($values): string
     {
-        /** @var UpsertQuery $self */
+        /** @var HasUpsert $self */
         $self = __CLASS__;
         return collect($values)->map(function ($value) use ($self) {
             // `id` to be mapped from select query
@@ -149,7 +149,7 @@ trait UpsertQuery
      */
     protected static function parseWheres(array $whereItems, Grammar $grammar): string
     {
-        /** @var UpsertQuery $self */
+        /** @var HasUpsert $self */
         $self = __CLASS__;
         return collect($whereItems)->map(function ($value, $key) use ($grammar, $self) {
             $parsedValue = $self::parseValue($value);

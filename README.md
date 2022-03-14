@@ -14,7 +14,7 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
 
 ## ⚙️ Usage
 
-1. Add `use UpsertQuery;` in your Laravel Eloquent model (*)
+1. Add `use HasUpsert;` in your Laravel Eloquent model (*)
 2. You can use it in two ways:
     1. Normal upsert
        ```php

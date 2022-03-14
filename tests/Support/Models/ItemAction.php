@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use ViktorRuskai\AdvancedUpsert\UpsertQuery;
+use ViktorRuskai\AdvancedUpsert\HasUpsert;
 
 /**
  * Class ItemAction
@@ -21,7 +21,7 @@ use ViktorRuskai\AdvancedUpsert\UpsertQuery;
  */
 class ItemAction extends Model
 {
-    use HasFactory, UpsertQuery;
+    use HasFactory, HasUpsert;
 
     public const UPDATED_AT = 'updatedAt';
     public const CREATED_AT = 'createdAt';
