@@ -16,7 +16,7 @@ echo ">> Install Faker"
 composer require fakerphp/faker
 
 echo "Add package from source"
-#sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../advanced-upsert-for-laravel" } ],|' -i composer.json || exit 1
+sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../advanced-upsert-for-laravel" } ],|' -i composer.json || exit 1
 composer require "viktorruskai/advanced-upsert-for-laravel:*" || exit 1
 
 echo ">> Copy all required files"
