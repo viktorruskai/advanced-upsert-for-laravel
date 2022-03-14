@@ -22,7 +22,7 @@ class HasUpsertTest extends TestCase
         $itemActions = ItemAction::factory()->count(20)->make([
             'itemId' => $item->getKey(),
         ])->unique()->toArray();
-dump($itemActions, '///////////////////////');
+
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
@@ -30,7 +30,7 @@ dump($itemActions, '///////////////////////');
             ->limit(-1)
             ->get()
             ->toArray();
-dump($itemActionsFromDatabase, '----------------------', $itemActions);
+
         $this->assertEquals($itemActions, $itemActionsFromDatabase);
     }
 }
