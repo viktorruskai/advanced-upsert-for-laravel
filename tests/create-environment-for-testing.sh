@@ -23,16 +23,12 @@ echo ">> Copy all required files"
 cp ../advanced-upsert-for-laravel/tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
 cp ../advanced-upsert-for-laravel/tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
 cp ../advanced-upsert-for-laravel/tests/Support/Factories/* ./database/factories && echo "\xE2\x9C\x94 Factories" || exit 1
-mkdir -m755 ./app/Console/Commands
-cp ../advanced-upsert-for-laravel/tests/Support/Commands/* ./app/Console/Commands && echo "\xE2\x9C\x94 Commands" || exit 1
 cp ../advanced-upsert-for-laravel/tests/Support/Tests/* ./tests/Unit && echo "\xE2\x9C\x94 Tests" || exit 1
 
 echo ">> Migrate"
 php artisan migrate
 
-echo ">> Test command"
-php artisan upsert:test
-
+echo ">> Start testing"
 php artisan test
 
 #

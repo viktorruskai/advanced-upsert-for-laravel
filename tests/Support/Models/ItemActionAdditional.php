@@ -9,31 +9,32 @@ use Illuminate\Database\Eloquent\Model;
 use ViktorRuskai\AdvancedUpsert\HasUpsert;
 
 /**
- * Class ItemAction
+ * Class ItemActionAdditional
  *
  * @package App\Models
- * @property int $id
- * @property int $itemId
- * @property string $actionName
- * @property string $actionDescription
- * @property double|null $actionValue
+ * @property int $itemActionId
+ * @property string $specialData
+ * @property string|null $description
  * @property string $updatedAt
  * @property string $createdAt
  * @method static Builder where($column, $values, $boolean = 'and', $not = false)
  */
-class ItemAction extends Model
+class ItemActionAdditional extends Model
 {
     use HasFactory, HasUpsert;
 
     public const UPDATED_AT = 'updatedAt';
     public const CREATED_AT = 'createdAt';
 
-    protected $table = 'itemActions';
+    protected $table = 'itemActionAdditionalData';
+
+    protected $primaryKey = ['itemActionId', 'specialData'];
+
+    public $incrementing = false;
 
     protected $fillable = [
-        'itemId',
-        'actionName',
-        'actionDescription',
-        'actionValue',
+        'itemActionId',
+        'specialData',
+        'description',
     ];
 }
