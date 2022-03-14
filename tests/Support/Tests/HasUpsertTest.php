@@ -31,6 +31,6 @@ class HasUpsertTest extends TestCase
             ->get()
             ->toArray();
         dump(count($itemActionsFromDatabase));
-        $this->assertEquals($itemActions, $itemActionsFromDatabase);
+        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
     }
 }
