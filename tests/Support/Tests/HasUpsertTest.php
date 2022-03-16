@@ -22,7 +22,9 @@ class HasUpsertTest extends TestCase
             'itemId' => $item->getKey(),
         ])->toArray();
 
-        ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
+        $ids = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['id']);
+
+        dd($ids);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
