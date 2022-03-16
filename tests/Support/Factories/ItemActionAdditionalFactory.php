@@ -25,7 +25,7 @@ class ItemActionAdditionalFactory extends Factory
         return [
             'itemActionId' => $this->faker->randomNumber(2),
             'specialData' => Str::random(random_int(5, 20)),
-            'description' => $this->faker->randomNumber(10),
+            'description' => Str::random(random_int(5, 20)),
         ];
     }
 }
