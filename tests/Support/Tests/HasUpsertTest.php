@@ -22,17 +22,17 @@ class HasUpsertTest extends TestCase
             'itemId' => $item->getKey(),
         ])->toArray();
 
-        $ids = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['id']);
-
-        dd($ids);
-
-        $itemActionsFromDatabase = ItemAction::where('itemId', 1)
-            ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
-            ->limit(-1)
-            ->get()
-            ->toArray();
+        $itemActionsFromDatabase = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['itemId', 'actionName', 'actionDescription', 'actionValue']);
 
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
+
+//        $itemActionsFromDatabase = ItemAction::where('itemId', 1)
+//            ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
+//            ->limit(-1)
+//            ->get()
+//            ->toArray();
+//
+//        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
     }
 
     public function testAdvancedUpsert(): void
