@@ -6,10 +6,12 @@ namespace Tests\Unit;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class HasUpsertTest extends TestCase
 {
+    use DatabaseMigrations;
 
     public function testBasicUpsert(): void
     {
