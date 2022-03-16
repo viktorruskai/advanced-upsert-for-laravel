@@ -88,7 +88,11 @@ class HasUpsertTest extends TestCase
             }
         }
 
-dump('------', $additionalData, ';;;;;;;;;;;;;;;;');
+        $itemActions = array_map(static function ($itemAction) {
+            unset($itemAction['additionalData']);
+            return $itemAction;
+        }, $itemActions);
+
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
         $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
