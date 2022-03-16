@@ -54,6 +54,8 @@ class HasUpsertTest extends TestCase
                 $itemAction['additionalData'] = ItemActionAdditional::factory()
                     ->count(10)
                     ->make();
+
+                return $itemAction;
             })
             ->toArray();
 
@@ -86,7 +88,7 @@ class HasUpsertTest extends TestCase
 
         $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
 
-        dump($specialData);
+//        dump($specialData);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
