@@ -6,12 +6,10 @@ namespace Tests\Unit;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class HasUpsertTest extends TestCase
 {
-    use DatabaseMigrations;
 
     public function testBasicUpsert(): void
     {
@@ -22,7 +20,7 @@ class HasUpsertTest extends TestCase
 
         $itemActions = ItemAction::factory()->count(20)->make([
             'itemId' => $item->getKey(),
-        ])->sortDesc()->toArray();
+        ])->toArray();
 
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
@@ -30,7 +28,6 @@ class HasUpsertTest extends TestCase
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
             ->limit(-1)
             ->get()
-            ->sortDesc()
             ->toArray();
 
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
@@ -38,8 +35,6 @@ class HasUpsertTest extends TestCase
 
     public function testAdvancedUpsert(): void
     {
-        $this->markTestSkipped('must be revisited.');
-
         // Prepare data
         $item = Item::create([
             'name' => 'Test',
@@ -57,10 +52,7 @@ class HasUpsertTest extends TestCase
                 $itemAction['additionalData'] = ItemActionAdditional::factory()
                     ->count(10)
                     ->make();
-
-                return $itemAction;
             })
-            ->sortDesc()
             ->toArray();
 
         // Process data
@@ -92,7 +84,7 @@ class HasUpsertTest extends TestCase
 
         $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
 
-//        dump($specialData);
+        dump($specialData);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])

@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Item;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ItemFactory extends Factory
 {
@@ -15,12 +17,14 @@ class ItemFactory extends Factory
 
     /**
      * Define the model's default state.
+     *
+     * @throws Exception
      */
     public function definition(): array
     {
         return [
             'name' => $this->faker->word(),
-            'description' => $this->faker->text(),
+            'description' => Str::random(random_int(5, 20)),
         ];
     }
 }
