@@ -88,18 +88,17 @@ class HasUpsertTest extends TestCase
             }
         }
 
+        // `additionalData` must be unset
         $itemActions = array_map(static function ($itemAction) {
             unset($itemAction['additionalData']);
             return $itemAction;
         }, $itemActions);
 
+        // Upsert
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
+        ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
 
-        $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
-
-        dump($specialData);
-
-        $allItemsInItemActionAdditional = ItemAction::select(['specialData', 'description'])
+        $allItemsInItemActionAdditional = ItemActionAdditional::select(['specialData', 'description'])
             ->limit(-1)
             ->get()
             ->toArray();
@@ -113,4 +112,6 @@ class HasUpsertTest extends TestCase
 
         $this->assertEqualsCanonicalizing($selectOnlyComparableColumns, $allItemsInItemActionAdditional);
     }
+
+    // Todo: create a new test for `returning` columns
 }

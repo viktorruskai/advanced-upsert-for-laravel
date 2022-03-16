@@ -18,6 +18,7 @@ use ViktorRuskai\AdvancedUpsert\HasUpsert;
  * @property string $updatedAt
  * @property string $createdAt
  * @method static Builder where($column, $values, $boolean = 'and', $not = false)
+ * @method static Builder select($query, $bindings = [], $useReadPdo = true)
  */
 class ItemActionAdditional extends Model
 {
