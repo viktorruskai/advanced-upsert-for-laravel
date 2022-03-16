@@ -24,11 +24,14 @@ class HasUpsertTest extends TestCase
 
         $itemActionsFromDatabase = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['itemId', 'actionName', 'actionDescription', 'actionValue']);
 
+        dump($itemActions);
+
         $itemActionsFromDatabase = array_map(static function ($item) {
-            dd($item);
+            dd('--------', (array)$item);
 
             return (array)$item;
         }, $itemActionsFromDatabase);
+
 
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
 
