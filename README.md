@@ -59,6 +59,16 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
          [...] // Any columns that should be returned (Not required) 
        );
        ```
+       This will generate SQL:
+       ```sql
+       INSERT INTO {$table} {columns}
+          SELECT {$record['upsert']} FROM {$selectModelTable} WHERE {$record['where']} UNION ALL
+          SELECT {$record['upsert']} FROM {$selectModelTable} WHERE {$record['where']} UNION ALL
+          ...
+       ON CONFLICT {$onConflictColumns}
+       DO UPDATE SET {$updateValues}
+       RETURNING {$toReturnColumns}
+       ```
 
 
 * Make sure you have correct namespace

@@ -74,7 +74,6 @@ trait HasUpsert
         if ($selectModelClassName) {
             $selectParameters = collect($values)->map(function ($record) use ($grammar, $selectTableName, &$columns) {
                 $whereParams = $record['where'];
-                dump($record);
                 $processValues = self::checkForTimestamps($record['upsert']);
 
                 if (!$columns) {

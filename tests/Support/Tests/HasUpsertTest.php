@@ -84,7 +84,7 @@ class HasUpsertTest extends TestCase
                 ];
             }
         }
-
+dd($additionalData);
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
         ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class);
