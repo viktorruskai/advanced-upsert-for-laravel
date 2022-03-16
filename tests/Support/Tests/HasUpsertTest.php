@@ -58,7 +58,8 @@ class HasUpsertTest extends TestCase
 
                 $itemAction['additionalData'] = ItemActionAdditional::factory()
                     ->count(10)
-                    ->make();
+                    ->make()
+                    ->toArray();
 
                 return $itemAction;
             })
@@ -68,11 +69,12 @@ class HasUpsertTest extends TestCase
         $additionalData = [];
 
         foreach ($itemActions as $itemAction) {
+            dump($itemAction);
             if (!isset($itemAction['additionalData'])) {
                 continue;
             }
 
-            foreach ($itemAction['additionalData'] as $additionalData) {
+            foreach ($itemAction['additionalData'] as $additionalDataFromItemAction) {
                 $additionalData[] = [
                     'where' => [
                         'itemId' => $item->getKey(),
@@ -80,8 +82,8 @@ class HasUpsertTest extends TestCase
                     ],
                     'upsert' => [
                         'itemActionId' => '*',
-                        'specialData' => $additionalData['specialData'],
-                        'description' => $additionalData['description'],
+                        'specialData' => $additionalDataFromItemAction['specialData'],
+                        'description' => $additionalDataFromItemAction['description'],
                     ],
                 ];
             }
