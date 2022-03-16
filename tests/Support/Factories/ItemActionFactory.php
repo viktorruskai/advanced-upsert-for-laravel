@@ -26,7 +26,7 @@ class ItemActionFactory extends Factory
             'itemId' => $this->faker->randomNumber(2),
             'actionName' => Str::random(random_int(5, 20)),
             'actionDescription' => Str::random(random_int(5, 20)),
-            'actionValue' => (double)$this->faker->numberBetween(0, 10000),
+            'actionValue' => $this->faker->numberBetween(0, 10000),
         ];
     }
 }

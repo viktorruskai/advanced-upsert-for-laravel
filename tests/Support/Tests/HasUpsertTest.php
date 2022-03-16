@@ -6,10 +6,12 @@ namespace Tests\Unit;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class HasUpsertTest extends TestCase
 {
+    use DatabaseMigrations;
 
     public function testBasicUpsert(): void
     {
@@ -22,27 +24,17 @@ class HasUpsertTest extends TestCase
             'itemId' => $item->getKey(),
         ])->toArray();
 
-//        $itemActionsFromDatabase = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['itemId', 'actionName', 'actionDescription', 'actionValue']);
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
-
-//        $itemActionsFromDatabase = array_map(static function ($item) {
-//            $item = (array)$item;
-//            $item['actionValue'] = (int)$item['actionValue'];
-//            return $item;
-//        }, $itemActionsFromDatabase);
-
-//        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
-
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
             ->limit(-1)
             ->get()
-//            ->map(static function ($item) {
-//                $item['actionValue'] = (int)$item['actionValue'];
-//
-//                return $item;
-//            })
+            ->map(static function ($item) {
+                $item['actionValue'] = (int)$item['actionValue'];
+
+                return $item;
+            })
             ->toArray();
 
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
@@ -50,8 +42,6 @@ class HasUpsertTest extends TestCase
 
     public function testAdvancedUpsert(): void
     {
-        $this->markTestSkipped('skipped');
-
         // Prepare data
         $item = Item::create([
             'name' => 'Test',
@@ -95,20 +85,22 @@ class HasUpsertTest extends TestCase
             }
         }
 
-        // Todo: Do not forget to remove `additionalData`
-
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
-        $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
+        ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class);
 
-        dump($specialData);
-
-        $itemActionsFromDatabase = ItemAction::where('itemId', 1)
-            ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
+        $allItemsInItemActionAdditional = ItemAction::select(['specialData', 'description'])
             ->limit(-1)
             ->get()
             ->toArray();
 
-        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
+        $selectOnlyComparableColumns = array_map(static function ($data) {
+            return [
+                'specialData' => $data['upsert']['specialData'],
+                'description' => $data['upsert']['description'],
+            ];
+        }, $additionalData);
+
+        $this->assertEqualsCanonicalizing($selectOnlyComparableColumns, $allItemsInItemActionAdditional);
     }
 }
