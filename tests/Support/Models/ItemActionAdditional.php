@@ -26,7 +26,7 @@ class ItemActionAdditional extends Model
     public const UPDATED_AT = 'updatedAt';
     public const CREATED_AT = 'createdAt';
 
-    protected $table = 'itemActionAdditionalData';
+    protected $table = 'itemActionAdditional';
 
     protected $primaryKey = ['itemActionId', 'specialData'];
 

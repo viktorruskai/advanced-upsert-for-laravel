@@ -5,14 +5,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemActionAdditionalDataTable extends Migration
+class CreateItemActionAdditionalTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('itemActionAdditionalData', static function (Blueprint $table) {
+        Schema::create('itemActionAdditional', static function (Blueprint $table) {
             $table->integer('itemActionId')->unsigned();
             $table->foreign('itemActionId')->references('id')->on('itemActions')->onDelete('cascade')->onUpdate('cascade');
             $table->string('specialData');
@@ -29,6 +29,6 @@ class CreateItemActionAdditionalDataTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('itemActionAdditionalData');
+        Schema::dropIfExists('itemActionAdditional');
     }
 }
