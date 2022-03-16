@@ -25,6 +25,8 @@ class HasUpsertTest extends TestCase
         $itemActionsFromDatabase = ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue'], null, ['itemId', 'actionName', 'actionDescription', 'actionValue']);
 
         $itemActionsFromDatabase = array_map(static function ($item) {
+            dd($item);
+
             return (array)$item;
         }, $itemActionsFromDatabase);
 
