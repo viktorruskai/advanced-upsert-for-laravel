@@ -38,11 +38,11 @@ class HasUpsertTest extends TestCase
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
             ->limit(-1)
             ->get()
-            ->map(static function ($item) {
-                $item['actionValue'] = (int)$item['actionValue'];
-
-                return $item;
-            })
+//            ->map(static function ($item) {
+//                $item['actionValue'] = (int)$item['actionValue'];
+//
+//                return $item;
+//            })
             ->toArray();
 
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
