@@ -88,10 +88,12 @@ class HasUpsertTest extends TestCase
                 ];
             }
         }
-dump($additionalData);
+
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
-        ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class);
+        $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
+
+        dump($specialData);
 
         $allItemsInItemActionAdditional = ItemAction::select(['specialData', 'description'])
             ->limit(-1)
