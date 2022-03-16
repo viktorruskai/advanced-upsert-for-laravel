@@ -69,7 +69,6 @@ class HasUpsertTest extends TestCase
         $additionalData = [];
 
         foreach ($itemActions as $itemAction) {
-            dump($itemAction);
             if (!isset($itemAction['additionalData'])) {
                 continue;
             }
@@ -90,7 +89,7 @@ class HasUpsertTest extends TestCase
         }
 
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
-
+dump('------', $additionalData, ';;;;;;;;;;;;;;;;');
         $specialData = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
 
         dump($specialData);
