@@ -35,14 +35,14 @@ class HasUpsertTest extends TestCase
             $itemActionMock,
             $tested,
         );
-dump($returnedParsedValue);
+
         $this->assertSame($returnedParsedValue, $expected);
     }
 
     public function valueDataProvider(): array
     {
         return [
-            [0, 0.0],
+            [0.5, 0.5],
             [null, ''],
             ['test', '\'test\''],
             [new Expression('NOW()'), '\'NOW()\''],
