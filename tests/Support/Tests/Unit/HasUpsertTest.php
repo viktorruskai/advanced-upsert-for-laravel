@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Models\ItemAction;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use ReflectionException;
 use ReflectionMethod;
@@ -16,28 +17,37 @@ class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private $hasUpsertTrait;
+    private $item;
+
+    public function setUp(): void
+    {
+        $this->hasUpsertTrait = $this->getObjectForTrait(HasUpsert::class);
+        $this->item = $this->getMockClass(ItemAction::class);
+
+        parent::setUp();
+    }
+
     /**
      * @throws ReflectionException
      */
     public function testCheckIfTimestampsAreAddedIntoItems()
     {
-        $hasUpsertTrait = $this->getObjectForTrait(HasUpsert::class);
-
         $items = [
             'actionName' => 'Test',
             'actionDescription' => 'Test description',
         ];
 
         $checkForTimestampsReflection = new ReflectionMethod(
-            HasUpsert::class,
+            ItemAction::class,
             'checkForTimestamps'
         );
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
-            $hasUpsertTrait,
+            $this->item,
             [$items],
         );
 
-        dd($returnedItems);
+        dd('s', $returnedItems);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ViktorRuskai\AdvancedUpsert;
 
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Query\Grammars\Grammar;
@@ -200,12 +201,15 @@ trait HasUpsert
      */
     protected static function checkForTimestamps(array $items): array
     {
-        if (!isset($items['updatedAt'])) {
-            $items['updatedAt'] = DB::raw('NOW()');
+        $updatedAtColumn = $this->getUpdatedAtColumn();
+        $createdAtColumn = $this->getCreatedAtColumn();
+
+        if (!isset($items[$updatedAtColumn])) {
+            $items[$updatedAtColumn] = DB::raw('NOW()');
         }
 
-        if (!isset($items['createdAt'])) {
-            $items['createdAt'] = DB::raw('NOW()');
+        if (!isset($items[$createdAtColumn])) {
+            $items[$createdAtColumn] = DB::raw('NOW()');
         }
 
         return $items;
