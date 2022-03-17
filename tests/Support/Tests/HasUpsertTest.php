@@ -166,16 +166,15 @@ class HasUpsertTest extends TestCase
         // Upsert
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
 
-        $allItemActionAdditionalReturnedFromDatabase = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['itemActionId', 'specialData', 'description']);
+        $allItemActionAdditionalReturnedFromDatabase = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData', 'description']);
 
         // Prepare data to compare
         $allItemActionAdditionalReturnedFromDatabase = array_map(static function ($itemActionAdditionalFromDatabase) {
-           return (array)$itemActionAdditionalFromDatabase;
+            return (array)$itemActionAdditionalFromDatabase;
         }, $allItemActionAdditionalReturnedFromDatabase);
 
-        $selectOnlyComparableColumns = array_map(static function ($data) use ($item) {
+        $selectOnlyComparableColumns = array_map(static function ($data) {
             return [
-                'itemId' => $item->getKey(),
                 'specialData' => $data['upsert']['specialData'],
                 'description' => $data['upsert']['description'],
             ];
