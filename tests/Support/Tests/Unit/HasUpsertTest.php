@@ -42,10 +42,10 @@ dump($returnedParsedValue);
     public function valueDataProvider(): array
     {
         return [
-            [0.5, 0.0],
-            [null, 'null'],
-            ['test', 'test'],
-            [new Expression('NOW()'), 'NOW()'],
+            [0, 0.0],
+            [null, ''],
+            ['test', '\'test\''],
+            [new Expression('NOW()'), '\'NOW()\''],
         ];
     }
 
