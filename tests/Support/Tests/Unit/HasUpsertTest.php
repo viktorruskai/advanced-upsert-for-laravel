@@ -32,7 +32,9 @@ class HasUpsertTest extends TestCase
      */
     public function testCheckIfTimestampsAreAddedIntoItems()
     {
-        $mock = \Mockery::namedMock('self', 'ClassConstantStub');
+        $mock = $this->partialMock(ItemAction::class);
+
+//        $mock = \Mockery::namedMock('self', 'ClassConstantStub');
 
         $items = [
             'actionName' => 'Test',
@@ -40,20 +42,20 @@ class HasUpsertTest extends TestCase
         ];
 
         $checkForTimestampsReflection = new ReflectionMethod(
-            HasUpsert::class,
+            ItemAction::class,
             'checkForTimestamps'
         );
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
-            $this->hasUpsertTrait,
+            $mock,
             [$items],
         );
 
         dd($returnedItems);
     }
 }
-class ClassConstantStub
-{
-    public const UPDATED_AT = 'updatedAt';
-    public const CREATED_AT = 'createdAt';
-}
+//class ClassConstantStub
+//{
+//    public const UPDATED_AT = 'updatedAt';
+//    public const CREATED_AT = 'createdAt';
+//}
