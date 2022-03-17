@@ -34,7 +34,7 @@ class HasUpsertTest extends TestCase
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
             $itemActionMock,
-            [$value],
+            $value,
         );
 
 dump($returnedItems);
