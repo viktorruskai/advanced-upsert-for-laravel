@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
-use ViktorRuskai\AdvancedUpsert\HasUpsert;
 
 /**
  * @method getObjectForTrait(string $class) @see \PHPUnit\Framework\TestCase
@@ -32,12 +31,12 @@ class HasUpsertTest extends TestCase
             'wrapValue'
         );
         $checkForTimestampsReflection->setAccessible(true);
-        $returnedItems = $checkForTimestampsReflection->invoke(
+        $returnedWrappedValue = $checkForTimestampsReflection->invoke(
             $itemActionMock,
             $value,
         );
 
-dump($returnedItems);
+        $this->assertSame('"' . $value . '"', $returnedWrappedValue);
     }
 
     /**
