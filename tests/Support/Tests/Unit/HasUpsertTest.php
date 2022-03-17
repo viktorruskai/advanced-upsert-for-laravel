@@ -20,7 +20,7 @@ class HasUpsertTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testParseWheres(): void
+    public function testParseWhereCondition(): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
@@ -38,9 +38,7 @@ class HasUpsertTest extends TestCase
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
         );
 
-        dump($returnedParsedConditions);
-
-
+        $this->assertSame('"itemId" = 1 AND "actionName" = \'test\'', $returnedParsedConditions);
     }
 
     /**
