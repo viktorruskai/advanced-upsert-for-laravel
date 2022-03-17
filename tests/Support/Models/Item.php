@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property string $updatedAt
  * @property string $createdAt
+ * @method static Item create(array $attributes = [])
  */
 class Item extends Model
 {

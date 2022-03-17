@@ -7,8 +7,14 @@ use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use ReflectionException;
+use ReflectionMethod;
 use Tests\TestCase;
+use ViktorRuskai\AdvancedUpsert\HasUpsert;
 
+/**
+ * @method getObjectForTrait(string $class) @see \PHPUnit\Framework\TestCase
+ */
 class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
@@ -181,5 +187,35 @@ class HasUpsertTest extends TestCase
         }, $additionalData);
 
         $this->assertEqualsCanonicalizing($selectOnlyComparableColumns, $allItemActionAdditionalReturnedFromDatabase);
+    }
+
+    public function setUp(): void
+    {
+
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testCheckIfTimestampsAreAddedIntoItems()
+    {
+        $hasUpsertTrait = $this->getObjectForTrait(HasUpsert::class);
+
+        $items = [
+            'actionName' => 'Test',
+            'actionDescription' => 'Test description',
+        ];
+
+        $checkForTimestampsReflection = new ReflectionMethod(
+            HasUpsert::class,
+            'checkForTimestamps'
+        );
+        $checkForTimestampsReflection->setAccessible(true);
+        $returnedItems = $checkForTimestampsReflection->invoke(
+            $hasUpsertTrait,
+            [$items],
+        );
+
+        dd($returnedItems);
     }
 }
