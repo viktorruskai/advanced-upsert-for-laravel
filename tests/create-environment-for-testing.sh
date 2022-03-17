@@ -20,17 +20,14 @@ sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../a
 composer require --dev "viktorruskai/advanced-upsert-for-laravel:*" || exit 1
 
 echo ">> Copy all required files"
-cp ../advanced-upsert-for-laravel/tests/Support/Models/* ./app/Models && echo "\xE2\x9C\x94 Models" || exit 1
-cp ../advanced-upsert-for-laravel/tests/Support/Migrations/* ./database/migrations && echo "\xE2\x9C\x94 Migrations" || exit 1
-cp ../advanced-upsert-for-laravel/tests/Support/Factories/* ./database/factories && echo "\xE2\x9C\x94 Factories" || exit 1
-cp ../advanced-upsert-for-laravel/tests/Support/Tests/* ./tests/Unit && echo "\xE2\x9C\x94 Tests" || exit 1
+cp ../advanced-upsert-for-laravel/tests/Support/Models/* ./app/Models && echo -e "\xE2\x9C\x94 Models" || exit 1
+cp ../advanced-upsert-for-laravel/tests/Support/Migrations/* ./database/migrations && echo -e "\xE2\x9C\x94 Migrations" || exit 1
+cp ../advanced-upsert-for-laravel/tests/Support/Factories/* ./database/factories && echo -e "\xE2\x9C\x94 Factories" || exit 1
+cp ../advanced-upsert-for-laravel/tests/Support/Tests/Unit/* ./tests/Unit && echo -e "\xE2\x9C\x94 Tests (Unit)" || exit 1
+cp ../advanced-upsert-for-laravel/tests/Support/Tests/Feature/* ./tests/Feature && echo -e "\xE2\x9C\x94 Tests (Feature)" || exit 1
 
 echo ">> Migrate"
 php artisan migrate
 
 echo ">> Start testing"
 php artisan test
-
-#
-
-
