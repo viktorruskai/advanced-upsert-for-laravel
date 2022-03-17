@@ -18,20 +18,13 @@ class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private $itemActionMock;
-
-    public function setUp(): void
-    {
-        $this->itemActionMock = $this->partialMock(ItemAction::class);
-
-        parent::setUp();
-    }
-
     /**
      * @throws ReflectionException
      */
     public function testWrapValues()
     {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
         $value = 'test123';
 
         $checkForTimestampsReflection = new ReflectionMethod(
@@ -40,7 +33,7 @@ class HasUpsertTest extends TestCase
         );
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
-            $this->itemActionMock,
+            $itemActionMock,
             [$value],
         );
 
@@ -52,6 +45,8 @@ dump($returnedItems);
      */
     public function testCheckIfTimestampsAreAddedIntoItems()
     {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
         $items = [
             'actionName' => 'Test',
             'actionDescription' => 'Test description',
@@ -63,7 +58,7 @@ dump($returnedItems);
         );
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
-            $this->itemActionMock,
+            $itemActionMock,
             [$items],
         );
 
