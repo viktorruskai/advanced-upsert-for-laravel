@@ -6,7 +6,6 @@ namespace Tests\Unit;
 use App\Models\ItemAction;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -46,7 +45,7 @@ class HasUpsertTest extends TestCase
             [0.5, 0.0],
             [null, 'null'],
             ['test', 'test'],
-            [DB::raw('NOW()'), 'NOW()'],
+            [new Expression('NOW()'), 'NOW()'],
         ];
     }
 
