@@ -1,5 +1,6 @@
 # Advanced Upsert for Laravel
 
+[![PHPUnit](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/tests.yml/badge.svg)](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/tests.yml)
 [![PHPStan](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/phpstan.yml/badge.svg)](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/phpstan.yml)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/viktorruskai/advanced-upsert-for-laravel/blob/master/LICENSE)
 

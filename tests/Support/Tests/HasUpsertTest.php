@@ -40,7 +40,7 @@ class HasUpsertTest extends TestCase
         $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
     }
 
-    public function testAdvancedUpsert(): void
+    public function testUpsertWithSelectingForeignKey(): void
     {
         // Prepare data
         $item = Item::create([
@@ -54,8 +54,6 @@ class HasUpsertTest extends TestCase
                 'itemId' => $item->getKey(),
             ])
             ->map(function ($itemAction) {
-//                $itemAction = $itemAction->toArray();
-
                 $itemAction['additionalData'] = ItemActionAdditional::factory()
                     ->count(10)
                     ->make()
@@ -65,7 +63,7 @@ class HasUpsertTest extends TestCase
             })
             ->toArray();
 
-        // Process data
+        // Process (parse) data
         $additionalData = [];
 
         foreach ($itemActions as $itemAction) {
@@ -96,7 +94,7 @@ class HasUpsertTest extends TestCase
 
         // Upsert
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
-        ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['specialData']);
+        ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class);
 
         $allItemsInItemActionAdditional = ItemActionAdditional::select(['specialData', 'description'])
             ->limit(-1)
@@ -113,5 +111,76 @@ class HasUpsertTest extends TestCase
         $this->assertEqualsCanonicalizing($selectOnlyComparableColumns, $allItemsInItemActionAdditional);
     }
 
-    // Todo: create a new test for `returning` columns
+    public function testUpsertWithSelectingForeignKeyAndReturnSomeColumns(): void
+    {
+        // Prepare data
+        $item = Item::create([
+            'name' => 'Item',
+            'description' => 'Description',
+        ]);
+
+        $itemActions = ItemAction::factory()
+            ->count(10)
+            ->make([
+                'itemId' => $item->getKey(),
+            ])
+            ->map(function ($itemAction) {
+                $itemAction['additionalData'] = ItemActionAdditional::factory()
+                    ->count(50)
+                    ->make()
+                    ->toArray();
+
+                return $itemAction;
+            })
+            ->toArray();
+
+        // Process (parse) data
+        $additionalData = [];
+
+        foreach ($itemActions as $itemAction) {
+            if (!isset($itemAction['additionalData'])) {
+                continue;
+            }
+
+            foreach ($itemAction['additionalData'] as $additionalDataFromItemAction) {
+                $additionalData[] = [
+                    'where' => [
+                        'itemId' => $item->getKey(),
+                        'actionName' => $itemAction['actionName'],
+                    ],
+                    'upsert' => [
+                        'itemActionId' => '*',
+                        'specialData' => $additionalDataFromItemAction['specialData'],
+                        'description' => $additionalDataFromItemAction['description'],
+                    ],
+                ];
+            }
+        }
+
+        // `additionalData` must be unset
+        $itemActions = array_map(static function ($itemAction) {
+            unset($itemAction['additionalData']);
+            return $itemAction;
+        }, $itemActions);
+
+        // Upsert
+        ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
+
+        $allItemActionAdditionalReturnedFromDatabase = ItemActionAdditional::upsert($additionalData, ['itemActionId', 'specialData'], ['description'], ItemAction::class, ['itemActionId', 'specialData', 'description']);
+
+        // Prepare data to compare
+        $allItemActionAdditionalReturnedFromDatabase = array_map(static function ($itemActionAdditionalFromDatabase) {
+           return (array)$itemActionAdditionalFromDatabase;
+        }, $allItemActionAdditionalReturnedFromDatabase);
+
+        $selectOnlyComparableColumns = array_map(static function ($data) use ($item) {
+            return [
+                'itemId' => $item->getKey(),
+                'specialData' => $data['upsert']['specialData'],
+                'description' => $data['upsert']['description'],
+            ];
+        }, $additionalData);
+
+        $this->assertEqualsCanonicalizing($selectOnlyComparableColumns, $allItemActionAdditionalReturnedFromDatabase);
+    }
 }
