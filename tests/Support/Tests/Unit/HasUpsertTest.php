@@ -32,12 +32,7 @@ class HasUpsertTest extends TestCase
      */
     public function testCheckIfTimestampsAreAddedIntoItems()
     {
-        \Mockery::getConfiguration()->setConstantsMap([
-            'HasUpsert' => [
-                'UPDATED_AT' => 'updatedAt',
-                'CREATED_AT' => 'createdAt',
-            ]
-        ]);
+        $mock = \Mockery::namedMock('self', 'ClassConstantStub');
 
         $items = [
             'actionName' => 'Test',
@@ -56,4 +51,9 @@ class HasUpsertTest extends TestCase
 
         dd($returnedItems);
     }
+}
+class ClassConstantStub
+{
+    public const UPDATED_AT = 'updatedAt';
+    public const CREATED_AT = 'createdAt';
 }
