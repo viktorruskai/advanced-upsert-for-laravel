@@ -18,6 +18,32 @@ class HasUpsertTest extends TestCase
     use DatabaseMigrations;
 
     /**
+     * @throws ReflectionException
+     */
+    public function testParseWheres(): void
+    {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $wheres = [
+            'itemId' => 1,
+            'actionName' => 'test',
+        ];
+
+        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseWheres');
+        $checkForTimestampsReflection->setAccessible(true);
+
+        $returnedParsedConditions = $checkForTimestampsReflection->invoke(
+            $itemActionMock,
+            $wheres,
+            $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
+        );
+
+        dump($returnedParsedConditions);
+
+
+    }
+
+    /**
      * @param mixed $tested
      * @param mixed $expected
      *
