@@ -42,7 +42,7 @@ class HasUpsertTest extends TestCase
     public function valueDataProvider(): array
     {
         return [
-            [0.5, 0.5],
+            [0.5, '0.5'],
             [null, ''],
             ['test', '\'test\''],
             [new Expression('NOW()'), '\'NOW()\''],
