@@ -18,11 +18,11 @@ class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
 
-    private $hasUpsertTrait;
+    private $itemActionMock;
 
     public function setUp(): void
     {
-        $this->hasUpsertTrait = $this->getObjectForTrait(HasUpsert::class);
+        $this->itemActionMock = $this->partialMock(ItemAction::class);
 
         parent::setUp();
     }
@@ -30,12 +30,28 @@ class HasUpsertTest extends TestCase
     /**
      * @throws ReflectionException
      */
+    public function testWrapValues()
+    {
+        $value = 'test123';
+
+        $checkForTimestampsReflection = new ReflectionMethod(
+            ItemAction::class,
+            'wrapValue'
+        );
+        $checkForTimestampsReflection->setAccessible(true);
+        $returnedItems = $checkForTimestampsReflection->invoke(
+            $this->itemActionMock,
+            [$value],
+        );
+
+dump($returnedItems);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testCheckIfTimestampsAreAddedIntoItems()
     {
-        $mock = $this->partialMock(ItemAction::class);
-
-//        $mock = \Mockery::namedMock('self', 'ClassConstantStub');
-
         $items = [
             'actionName' => 'Test',
             'actionDescription' => 'Test description',
@@ -47,7 +63,7 @@ class HasUpsertTest extends TestCase
         );
         $checkForTimestampsReflection->setAccessible(true);
         $returnedItems = $checkForTimestampsReflection->invoke(
-            $mock,
+            $this->itemActionMock,
             [$items],
         );
 
@@ -57,8 +73,3 @@ class HasUpsertTest extends TestCase
         $this->assertSame('NOW()', $returnedItems[ItemAction::CREATED_AT]->getValue());
     }
 }
-//class ClassConstantStub
-//{
-//    public const UPDATED_AT = 'updatedAt';
-//    public const CREATED_AT = 'createdAt';
-//}
