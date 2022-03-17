@@ -201,15 +201,12 @@ trait HasUpsert
      */
     protected static function checkForTimestamps(array $items): array
     {
-        $updatedAtColumn = $this->getUpdatedAtColumn();
-        $createdAtColumn = $this->getCreatedAtColumn();
-
-        if (!isset($items[$updatedAtColumn])) {
-            $items[$updatedAtColumn] = DB::raw('NOW()');
+        if (!isset($items[self::UPDATED_AT])) {
+            $items[self::UPDATED_AT] = DB::raw('NOW()');
         }
 
-        if (!isset($items[$createdAtColumn])) {
-            $items[$createdAtColumn] = DB::raw('NOW()');
+        if (!isset($items[self::CREATED_AT])) {
+            $items[self::CREATED_AT] = DB::raw('NOW()');
         }
 
         return $items;
