@@ -6,6 +6,7 @@ namespace Tests\Unit;
 use App\Models\ItemAction;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -18,19 +19,49 @@ class HasUpsertTest extends TestCase
     use DatabaseMigrations;
 
     /**
+     * @param mixed $tested
+     * @param mixed $expected
+     *
+     * @dataProvider valueDataProvider
      * @throws ReflectionException
      */
-    public function testWrapValues()
+    public function testParseValues($tested, $expected): void
+    {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseValues');
+        $checkForTimestampsReflection->setAccessible(true);
+
+        $returnedParsedValue = $checkForTimestampsReflection->invoke(
+            $itemActionMock,
+            $tested,
+        );
+
+        $this->assertSame($returnedParsedValue, $expected);
+    }
+
+    public function valueDataProvider(): array
+    {
+        return [
+            [0.5, 0.0],
+            [null, 'null'],
+            ['test', 'test'],
+            [DB::raw('NOW()'), 'NOW()'],
+        ];
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testWrapValues(): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
         $value = 'test123';
 
-        $checkForTimestampsReflection = new ReflectionMethod(
-            ItemAction::class,
-            'wrapValue'
-        );
+        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'wrapValue');
         $checkForTimestampsReflection->setAccessible(true);
+
         $returnedWrappedValue = $checkForTimestampsReflection->invoke(
             $itemActionMock,
             $value,
@@ -42,7 +73,7 @@ class HasUpsertTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testCheckIfTimestampsAreAddedIntoItems()
+    public function testCheckIfTimestampsAreAddedIntoItems(): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
@@ -51,11 +82,9 @@ class HasUpsertTest extends TestCase
             'actionDescription' => 'Test description',
         ];
 
-        $checkForTimestampsReflection = new ReflectionMethod(
-            ItemAction::class,
-            'checkForTimestamps'
-        );
+        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'checkForTimestamps');
         $checkForTimestampsReflection->setAccessible(true);
+
         $returnedItems = $checkForTimestampsReflection->invoke(
             $itemActionMock,
             [$items],
