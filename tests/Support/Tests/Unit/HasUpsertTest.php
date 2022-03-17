@@ -10,9 +10,6 @@ use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
 
-/**
- * @method getObjectForTrait(string $class) @see \PHPUnit\Framework\TestCase
- */
 class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
@@ -20,7 +17,30 @@ class HasUpsertTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testParseWhereCondition(): void
+    public function testParseValues(): void
+    {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $values = [
+            'itemActionId' => '*',
+            'specialData' => 'test123',
+        ];
+
+        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseValues');
+        $checkForTimestampsReflection->setAccessible(true);
+
+        $returnedParsedValues = $checkForTimestampsReflection->invoke(
+            $itemActionMock,
+            $values
+        );
+dump($returnedParsedValues);
+//        $this->assertSame('"itemId" = 1 AND "actionName" = \'test\'', $returnedParsedValues);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testParseWhereConditions(): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
@@ -48,7 +68,7 @@ class HasUpsertTest extends TestCase
      * @dataProvider valueDataProvider
      * @throws ReflectionException
      */
-    public function testParseValues($tested, $expected): void
+    public function testParseValue($tested, $expected): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
