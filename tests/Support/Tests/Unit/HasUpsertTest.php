@@ -22,8 +22,8 @@ class HasUpsertTest extends TestCase
         $itemActionMock = $this->partialMock(ItemAction::class);
 
         $values = [
-            'itemActionId' => '*',
-            'specialData' => 'test123',
+            '*',
+            'test123',
         ];
 
         $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseValues');
@@ -34,7 +34,7 @@ class HasUpsertTest extends TestCase
             $values
         );
 dump($returnedParsedValues);
-//        $this->assertSame('"itemId" = 1 AND "actionName" = \'test\'', $returnedParsedValues);
+        $this->assertSame('id,\'test123\'', $returnedParsedValues);
     }
 
     /**
