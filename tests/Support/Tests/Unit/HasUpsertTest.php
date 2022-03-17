@@ -53,7 +53,8 @@ class HasUpsertTest extends TestCase
 
         $this->assertInstanceOf(Expression::class, $returnedItems[ItemAction::UPDATED_AT]);
         $this->assertInstanceOf(Expression::class, $returnedItems[ItemAction::CREATED_AT]);
-        dump($returnedItems);
+        $this->assertSame('NOW()', $returnedItems[ItemAction::UPDATED_AT]->getValue());
+        $this->assertSame('NOW()', $returnedItems[ItemAction::CREATED_AT]->getValue());
     }
 }
 //class ClassConstantStub
