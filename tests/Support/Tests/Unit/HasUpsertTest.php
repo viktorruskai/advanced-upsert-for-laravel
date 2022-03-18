@@ -15,6 +15,40 @@ class HasUpsertTest extends TestCase
     use DatabaseMigrations;
 
     /**
+     * @dataProvider compileReturnDataProvider
+     * @throws ReflectionException
+     */
+    public function testCompileUpdateFunction(array $tested, string $expected): void
+    {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileUpdate');
+        $compileUpdateFunction->setAccessible(true);
+
+        $returnedUpdatedString = $compileUpdateFunction->invoke(
+            $itemActionMock,
+            $tested,
+            $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
+        );
+
+        $this->assertSame($returnedUpdatedString, $expected);
+    }
+
+    public function compileReturnDataProvider(): array
+    {
+        return [
+            [[
+                'actionDescription' => 'Test 123',
+                'testField' => 1,
+            ], ' DO UPDATE SET "actionDescription" => \'Test 123\', "testField" => 1'],
+            [[
+                'actionDescription' => 'Test 123',
+                'testField' => null,
+            ], ' DO UPDATE SET "actionDescription" => \'Test 123\', "testField" IS NULL'],
+        ];
+    }
+
+    /**
      * @throws ReflectionException
      */
     public function testCompileReturnFunction(): void
