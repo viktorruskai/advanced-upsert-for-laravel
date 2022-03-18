@@ -38,13 +38,13 @@ class HasUpsertTest extends TestCase
     {
         return [
             [[
-                'actionDescription' => 'Test 123',
+                'actionDescription',
                 'testField' => 1,
-            ], ' DO UPDATE SET "actionDescription" => \'Test 123\', "testField" => 1'],
+            ], ' DO UPDATE SET "actionDescription" => "excluded"."actionDescription", "testField" => ?'],
             [[
                 'actionDescription' => 'Test 123',
-                'testField' => null,
-            ], ' DO UPDATE SET "actionDescription" => \'Test 123\', "testField" IS NULL'],
+                'testField',
+            ], ' DO UPDATE SET "actionDescription" => ?, "testField" = "excluded"."testField"'],
         ];
     }
 
