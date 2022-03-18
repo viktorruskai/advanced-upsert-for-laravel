@@ -38,6 +38,10 @@ class HasUpsertTest extends TestCase
         $this->assertSame($returnedUpdatedString, $expected);
     }
 
+    /**
+     * @noinspection SqlDialectInspection
+     * @noinspection SqlNoDataSourceInspection
+     */
     public function compileInsertDataProvider(): array
     {
         return [
@@ -46,19 +50,21 @@ class HasUpsertTest extends TestCase
                     'actionName' => 'Test',
                     'actionDescription' => 'Test description',
                 ],
-            ], null, 'INSERT INTO itemActions (...) VALUES '],
+            ], null, 'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())'],
             [
                 [
                     [
                         'where' => [
-
+                            'actionId' => 1,
+                            'actionName' => 'Test',
                         ],
                         'upsert' => [
-
+                            'specialData' => '123456',
+                            'description' => 'ahoj',
                         ],
                     ],
-                ], ItemActionAdditional::class, 'INSERT INTO ',
-            ]
+                ], ItemActionAdditional::class, 'INSERT INTO "itemActionAdditional" ()',
+            ],
         ];
     }
 
