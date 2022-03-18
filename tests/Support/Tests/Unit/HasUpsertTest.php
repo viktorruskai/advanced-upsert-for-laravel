@@ -17,6 +17,29 @@ class HasUpsertTest extends TestCase
     /**
      * @throws ReflectionException
      */
+    public function testCompileReturnFunction(): void
+    {
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $values = [
+            'id',
+            'actionName',
+        ];
+
+        $compileReturnFunction = new ReflectionMethod(ItemAction::class, 'compileReturn');
+        $compileReturnFunction->setAccessible(true);
+
+        $returnedString = $compileReturnFunction->invoke(
+            $itemActionMock,
+            $values
+        );
+
+        $this->assertSame(' RETURNING id, actionName', $returnedString);
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testParseValues(): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
@@ -26,14 +49,14 @@ class HasUpsertTest extends TestCase
             'test123',
         ];
 
-        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseValues');
-        $checkForTimestampsReflection->setAccessible(true);
+        $parseValuesFunction = new ReflectionMethod(ItemAction::class, 'parseValues');
+        $parseValuesFunction->setAccessible(true);
 
-        $returnedParsedValues = $checkForTimestampsReflection->invoke(
+        $returnedParsedValues = $parseValuesFunction->invoke(
             $itemActionMock,
             $values
         );
-dump($returnedParsedValues);
+
         $this->assertSame('id,\'test123\'', $returnedParsedValues);
     }
 
@@ -49,10 +72,10 @@ dump($returnedParsedValues);
             'actionName' => 'test',
         ];
 
-        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseWheres');
-        $checkForTimestampsReflection->setAccessible(true);
+        $parseWheresFunction = new ReflectionMethod(ItemAction::class, 'parseWheres');
+        $parseWheresFunction->setAccessible(true);
 
-        $returnedParsedConditions = $checkForTimestampsReflection->invoke(
+        $returnedParsedConditions = $parseWheresFunction->invoke(
             $itemActionMock,
             $wheres,
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
@@ -72,10 +95,10 @@ dump($returnedParsedValues);
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
-        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'parseValues');
-        $checkForTimestampsReflection->setAccessible(true);
+        $parseValuesFunction = new ReflectionMethod(ItemAction::class, 'parseValues');
+        $parseValuesFunction->setAccessible(true);
 
-        $returnedParsedValue = $checkForTimestampsReflection->invoke(
+        $returnedParsedValue = $parseValuesFunction->invoke(
             $itemActionMock,
             $tested,
         );
@@ -102,10 +125,10 @@ dump($returnedParsedValues);
 
         $value = 'test123';
 
-        $checkForTimestampsReflection = new ReflectionMethod(ItemAction::class, 'wrapValue');
-        $checkForTimestampsReflection->setAccessible(true);
+        $wrapValueFunction = new ReflectionMethod(ItemAction::class, 'wrapValue');
+        $wrapValueFunction->setAccessible(true);
 
-        $returnedWrappedValue = $checkForTimestampsReflection->invoke(
+        $returnedWrappedValue = $wrapValueFunction->invoke(
             $itemActionMock,
             $value,
         );
