@@ -23,13 +23,13 @@ class HasUpsertTest extends TestCase
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
-        $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileUpdate');
+        $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileInsert');
         $compileUpdateFunction->setAccessible(true);
 
         $returnedUpdatedString = $compileUpdateFunction->invoke(
             $itemActionMock,
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar(),
-            $itemActionMock->newQueryModel(),
+            $itemActionMock::query()->getQuery(),
             $tested,
             $selectModelClassname
         );
