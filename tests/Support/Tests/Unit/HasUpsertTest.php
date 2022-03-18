@@ -42,16 +42,20 @@ class HasUpsertTest extends TestCase
     {
         return [
             [[
-                'actionName' => 'Test',
-                'actionDescription' => 'Test description',
+                [
+                    'actionName' => 'Test',
+                    'actionDescription' => 'Test description',
+                ],
             ], null, 'INSERT INTO itemActions (...) VALUES '],
             [
                 [
-                    'where' => [
+                    [
+                        'where' => [
 
-                    ],
-                    'upsert' => [
+                        ],
+                        'upsert' => [
 
+                        ],
                     ],
                 ], ItemActionAdditional::class, 'INSERT INTO ',
             ]
