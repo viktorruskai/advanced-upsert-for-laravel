@@ -31,7 +31,8 @@ class HasUpsertTest extends TestCase
 
         $returnedString = $compileReturnFunction->invoke(
             $itemActionMock,
-            $values
+            $values,
+            $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
         );
 
         $this->assertSame(' RETURNING id, actionName', $returnedString);
