@@ -21,7 +21,8 @@ class HasUpsertTest extends TestCase
      */
     public function testCompileInsertFunction(array $tested, ?string $selectModelClassname, string $expected): void
     {
-        $itemActionMock = $this->partialMock(ItemAction::class);
+//        $itemActionMock = $this->partialMock(ItemAction::class);
+        $itemActionMock = new ItemAction();
 
         $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileInsert');
         $compileUpdateFunction->setAccessible(true);
