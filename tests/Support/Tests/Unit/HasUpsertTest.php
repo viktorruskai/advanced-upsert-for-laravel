@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use App\Models\ItemAction;
+use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use ReflectionException;
@@ -28,7 +29,7 @@ class HasUpsertTest extends TestCase
         $returnedUpdatedString = $compileUpdateFunction->invoke(
             $itemActionMock,
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar(),
-            $itemActionMock::query()->getQuery(),
+            $itemActionMock->newQueryModel(),
             $tested,
             $selectModelClassname
         );
@@ -43,6 +44,16 @@ class HasUpsertTest extends TestCase
                 'actionName' => 'Test',
                 'actionDescription' => 'Test description',
             ], null, 'INSERT INTO itemActions (...) VALUES '],
+            [
+                [
+                    'where' => [
+
+                    ],
+                    'upsert' => [
+
+                    ],
+                ], ItemActionAdditional::class, 'INSERT INTO ',
+            ]
         ];
     }
 
