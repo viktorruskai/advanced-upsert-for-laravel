@@ -35,7 +35,7 @@ class HasUpsertTest extends TestCase
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar()
         );
 
-        $this->assertSame(' RETURNING id, actionName', $returnedString);
+        $this->assertSame(' RETURNING "id", "actionName"', $returnedString);
     }
 
     /**
