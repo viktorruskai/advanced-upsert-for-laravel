@@ -8,6 +8,7 @@ use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -24,6 +25,8 @@ class HasUpsertTest extends TestCase
 //        $pdo = DB::getPdo();
 
 //        DB::spy();
+        DB::partialMock();
+
         Item::create([
             'name' => 'Test',
             'description' => 'Test Description',
@@ -45,7 +48,7 @@ class HasUpsertTest extends TestCase
 //        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
 //        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
-//        dump(DB::shouldReceive('select')->once()->andReturnSelf());
+        dump(DB::shouldReceive('select')->once()->andReturnSelf());
 
         dd($returnedItems);
 //        $this->assertSame($returnedUpdatedString, $expected);
