@@ -7,6 +7,7 @@ use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -20,9 +21,13 @@ class HasUpsertTest extends TestCase
      */
     public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
+        DB::spy();
+
         $itemActionMock = new ItemAction();
 
         $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
+
+        dump(DB::shouldReceive('select')->once()->andReturnSelf());
 
         dd($returned);
 //        $this->assertSame($returnedUpdatedString, $expected);
