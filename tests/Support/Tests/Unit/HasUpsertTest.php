@@ -28,12 +28,23 @@ class HasUpsertTest extends TestCase
 //        $itemActionMock = new ItemAction();
         $itemActionMock = $this->partialMock(ItemAction::class);
 
-        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
+        $upsertFunction = new ReflectionMethod(ItemAction::class, 'upsert');
+        $returnedItems = $upsertFunction->invoke(
+            $itemActionMock,
+            $testedItems,
+            $conflictColumns,
+            $update,
+            $selectModelClassname,
+            $returnColumns
+        );
+
+
+//        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
 //        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
 //        dump(DB::shouldReceive('select')->once()->andReturnSelf());
 
-        dd($returned);
+        dd($returnedItems);
 //        $this->assertSame($returnedUpdatedString, $expected);
     }
 
