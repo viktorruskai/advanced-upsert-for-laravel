@@ -82,10 +82,10 @@ class HasUpsertTest extends TestCase
     {
         $itemActionMock = new ItemAction();
 
-        $compileUpdateFunction =
-        $compileUpdateFunction->setAccessiblenew ReflectionMethod(ItemAction::class, 'compileInsert');(true);
+        $compileInsertFunction = new ReflectionMethod(ItemAction::class, 'compileInsert');
+        $compileInsertFunction->setAccessible(true);
 
-        $returnedUpdatedString = $compileUpdateFunction->invoke(
+        $returnedUpdatedString = $compileInsertFunction->invoke(
             $itemActionMock,
             $itemActionMock::getConnectionResolver()->connection()->getQueryGrammar(),
             $itemActionMock::query()->getQuery(),
