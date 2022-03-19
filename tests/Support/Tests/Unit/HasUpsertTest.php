@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
@@ -19,13 +19,16 @@ class HasUpsertTest extends TestCase
     /**
      * @dataProvider upsertDataProvider
      */
-    public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
+    public function testUpsertFunction(array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
 //        $pdo = DB::getPdo();
 
 //        DB::spy();
+        Item::create([
+            'name' => 'Test',
+            'description' => 'Test Description',
+        ]);
 
-//        $itemActionMock = new ItemAction();
         $itemActionMock = $this->partialMock(ItemAction::class);
 
         $upsertFunction = new ReflectionMethod(ItemAction::class, 'upsert');
