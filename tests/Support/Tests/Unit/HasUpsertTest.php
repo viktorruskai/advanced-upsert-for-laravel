@@ -29,7 +29,7 @@ class HasUpsertTest extends TestCase
 
         $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
-        DB::shouldReceive('getPDO')->once()->andReturn($pdo);
+        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
         dump(DB::shouldReceive('select')->once()->andReturnSelf());
 
         dd($returned);
