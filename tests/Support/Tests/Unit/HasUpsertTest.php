@@ -21,16 +21,17 @@ class HasUpsertTest extends TestCase
      */
     public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
-        $pdo = DB::getPdo();
+//        $pdo = DB::getPdo();
 
-        DB::spy();
+//        DB::spy();
 
-        $itemActionMock = new ItemAction();
+//        $itemActionMock = new ItemAction();
+        $itemActionMock = $this->partialMock(ItemAction::class);
 
         $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
-        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
-        dump(DB::shouldReceive('select')->once()->andReturnSelf());
+//        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
+//        dump(DB::shouldReceive('select')->once()->andReturnSelf());
 
         dd($returned);
 //        $this->assertSame($returnedUpdatedString, $expected);
@@ -81,8 +82,8 @@ class HasUpsertTest extends TestCase
     {
         $itemActionMock = new ItemAction();
 
-        $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileInsert');
-        $compileUpdateFunction->setAccessible(true);
+        $compileUpdateFunction =
+        $compileUpdateFunction->setAccessiblenew ReflectionMethod(ItemAction::class, 'compileInsert');(true);
 
         $returnedUpdatedString = $compileUpdateFunction->invoke(
             $itemActionMock,
