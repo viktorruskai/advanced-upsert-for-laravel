@@ -58,6 +58,7 @@ class HasUpsertTest extends TestCase
             [
                 [
                     [
+                        'itemId' => 1,
                         'actionName' => 'Test',
                         'actionDescription' => 'Test description',
                     ],
