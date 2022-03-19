@@ -62,7 +62,7 @@ class HasUpsertTest extends TestCase
                         'actionDescription' => 'Test description',
                     ],
                 ],
-                ['actionName'], // Conflict
+                ['itemId', 'actionName'], // Conflict
                 ['actionDescription'], // Update
                 null, // Selected model,
                 [],
