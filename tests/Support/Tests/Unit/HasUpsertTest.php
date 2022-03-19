@@ -17,7 +17,6 @@ class HasUpsertTest extends TestCase
 
     /**
      * @dataProvider upsertDataProvider
-     * @throws ReflectionException
      */
     public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
@@ -27,6 +26,43 @@ class HasUpsertTest extends TestCase
 
         dd($returned);
 //        $this->assertSame($returnedUpdatedString, $expected);
+    }
+
+    /**
+     * @noinspection SqlDialectInspection
+     * @noinspection SqlNoDataSourceInspection
+     */
+    public function upsertDataProvider(): array
+    {
+        return [
+            [
+                [
+                    [
+                        'actionName' => 'Test',
+                        'actionDescription' => 'Test description',
+                    ],
+                ],
+                ['actionName'], // Conflict
+                ['actionDescription'], // Update
+                null, // Selected model,
+                [],
+                'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())',
+            ],
+//            [
+//                [
+//                    [
+//                        'where' => [
+//                            'actionId' => 1,
+//                            'actionName' => 'Test',
+//                        ],
+//                        'upsert' => [
+//                            'specialData' => '123456',
+//                            'description' => 'Hello',
+//                        ],
+//                    ],
+//                ], ItemActionAdditional::class, 'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
+//            ],
+        ];
     }
 
     /**
