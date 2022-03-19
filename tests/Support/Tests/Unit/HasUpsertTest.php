@@ -16,12 +16,25 @@ class HasUpsertTest extends TestCase
     use DatabaseMigrations;
 
     /**
+     * @dataProvider upsertDataProvider
+     * @throws ReflectionException
+     */
+    public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
+    {
+        $itemActionMock = new ItemAction();
+
+        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
+
+        dd($returned);
+//        $this->assertSame($returnedUpdatedString, $expected);
+    }
+
+    /**
      * @dataProvider compileInsertDataProvider
      * @throws ReflectionException
      */
     public function testCompileInsertFunction(array $tested, ?string $selectModelClassname, string $expected): void
     {
-//        $itemActionMock = $this->partialMock(ItemAction::class);
         $itemActionMock = new ItemAction();
 
         $compileUpdateFunction = new ReflectionMethod(ItemAction::class, 'compileInsert');
@@ -45,12 +58,14 @@ class HasUpsertTest extends TestCase
     public function compileInsertDataProvider(): array
     {
         return [
-            [[
+            [
                 [
-                    'actionName' => 'Test',
-                    'actionDescription' => 'Test description',
-                ],
-            ], null, 'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())'],
+                    [
+                        'actionName' => 'Test',
+                        'actionDescription' => 'Test description',
+                    ],
+                ], null, 'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())'
+            ],
             [
                 [
                     [
