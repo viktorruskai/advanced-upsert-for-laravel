@@ -21,13 +21,13 @@ class HasUpsertTest extends TestCase
      */
     public function testUpsertFunction(array $testedItems, $conflictColumns, $update,  ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
-        DB::spy();
+        $db = DB::partialMock();
 
         $itemActionMock = new ItemAction();
 
         $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
-        dump(DB::shouldReceive('select')->once()->andReturnSelf());
+        dump($db->shouldReceive('select')->once()->andReturnSelf());
 
         dd($returned);
 //        $this->assertSame($returnedUpdatedString, $expected);
