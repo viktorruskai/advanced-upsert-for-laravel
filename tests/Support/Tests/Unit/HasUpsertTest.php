@@ -25,7 +25,6 @@ class HasUpsertTest extends TestCase
 //        $pdo = DB::getPdo();
 
 //        DB::spy();
-        DB::partialMock();
 
         Item::create([
             'name' => 'Test',
@@ -48,9 +47,9 @@ class HasUpsertTest extends TestCase
 //        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
 
 //        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
-        dump(DB::shouldReceive('select')->once()->andReturnSelf());
-
-        dd($returnedItems);
+//        dump(DB::shouldReceive('select')->once()->andReturnSelf());
+        dump(DB::getQueryLog());
+//        dd($returnedItems);
 //        $this->assertSame($returnedUpdatedString, $expected);
     }
 
