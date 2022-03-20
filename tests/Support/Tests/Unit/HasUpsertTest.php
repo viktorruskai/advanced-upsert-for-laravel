@@ -83,6 +83,7 @@ class HasUpsertTest extends TestCase
                             'actionName' => 'Test',
                         ],
                         'upsert' => [
+                            'itemActionId' => '*',
                             'specialData' => '123456',
                             'description' => 'Hello',
                         ],
