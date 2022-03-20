@@ -8,32 +8,35 @@ use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
 use ReflectionException;
 use ReflectionMethod;
 use Tests\TestCase;
 
+/**
+ * @mixin BaseTestCase
+ */
 class HasUpsertTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
+     * Must be tested by inserting row into the DB.
+     *
      * @dataProvider upsertDataProvider
      *
      * @throws ReflectionException
      */
     public function testUpsertFunction(string $model, array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
-
-//        DB::spy();
-
-
         Item::create([
             'name' => 'Test',
             'description' => 'Test Description',
         ]);
 
         DB::enableQueryLog();
+
         $itemActionMock = $this->partialMock($model);
 
         $upsertFunction = new ReflectionMethod($model, 'upsert');
@@ -47,8 +50,6 @@ class HasUpsertTest extends TestCase
         );
 
         $this->assertSame(DB::getQueryLog()[0]['query'] ?? [], $expected);
-
-        dump(DB::getQueryLog());
     }
 
     /**
