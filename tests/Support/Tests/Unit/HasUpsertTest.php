@@ -24,7 +24,6 @@ class HasUpsertTest extends TestCase
      */
     public function testUpsertFunction(string $model, array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
-//        $pdo = DB::getPdo();
 
 //        DB::spy();
 
@@ -93,7 +92,7 @@ class HasUpsertTest extends TestCase
                 ['description'], // Update
                 ItemAction::class, // Selected model
                 [],
-                'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
+                'INSERT INTO "itemActionAdditional" ("itemActionId", "specialData", "description", "updatedAt", "createdAt") (SELECT id,\'123456\',\'Hello\',NOW(),NOW() FROM "itemActions" WHERE "itemId" = 1 AND "actionName" = \'Test\') ON CONFLICT ("itemActionId", "specialData") DO UPDATE SET "description" = "excluded"."description"',
             ],
         ];
     }
