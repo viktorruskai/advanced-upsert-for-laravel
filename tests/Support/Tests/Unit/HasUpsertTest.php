@@ -26,17 +26,17 @@ class HasUpsertTest extends TestCase
 
 //        DB::spy();
 
-        DB::enableQueryLog();
 
         Item::create([
             'name' => 'Test',
             'description' => 'Test Description',
         ]);
 
+        DB::enableQueryLog();
         $itemActionMock = $this->partialMock(ItemAction::class);
 
         $upsertFunction = new ReflectionMethod(ItemAction::class, 'upsert');
-        $returnedItems = $upsertFunction->invoke(
+        $upsertFunction->invoke(
             $itemActionMock,
             $testedItems,
             $conflictColumns,
@@ -45,14 +45,9 @@ class HasUpsertTest extends TestCase
             $returnColumns
         );
 
+        $this->assertSame(DB::getQueryLog()[0]['query'] ?? [], $expected);
 
-//        $returned = $itemActionMock::upsert($testedItems, $conflictColumns, $update, $selectModelClassname, $returnColumns);
-
-//        DB::shouldReceive('getPdo')->once()->andReturn($pdo);
-//        dump(DB::shouldReceive('select')->once()->andReturnSelf());
         dump(DB::getQueryLog());
-//        dd($returnedItems);
-//        $this->assertSame($returnedUpdatedString, $expected);
     }
 
     /**
@@ -74,7 +69,7 @@ class HasUpsertTest extends TestCase
                 ['actionDescription'], // Update
                 null, // Selected model,
                 [],
-                'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())',
+                'INSERT INTO "itemActions" ("itemId", "actionName", "actionDescription", "updatedAt", "createdAt") VALUES (1,\'Test\',\'Test description\',NOW(),NOW()) ON CONFLICT ("itemId", "actionName") DO UPDATE SET "actionDescription" = "excluded"."actionDescription"',
             ],
 //            [
 //                [
