@@ -19,8 +19,10 @@ class HasUpsertTest extends TestCase
 
     /**
      * @dataProvider upsertDataProvider
+     *
+     * @throws ReflectionException
      */
-    public function testUpsertFunction(array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
+    public function testUpsertFunction(string $model, array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
     {
 //        $pdo = DB::getPdo();
 
@@ -33,9 +35,9 @@ class HasUpsertTest extends TestCase
         ]);
 
         DB::enableQueryLog();
-        $itemActionMock = $this->partialMock(ItemAction::class);
+        $itemActionMock = $this->partialMock($model);
 
-        $upsertFunction = new ReflectionMethod(ItemAction::class, 'upsert');
+        $upsertFunction = new ReflectionMethod($model, 'upsert');
         $upsertFunction->invoke(
             $itemActionMock,
             $testedItems,
@@ -58,6 +60,7 @@ class HasUpsertTest extends TestCase
     {
         return [
             [
+                ItemAction::class,
                 [
                     [
                         'itemId' => 1,
@@ -71,20 +74,26 @@ class HasUpsertTest extends TestCase
                 [],
                 'INSERT INTO "itemActions" ("itemId", "actionName", "actionDescription", "updatedAt", "createdAt") VALUES (1,\'Test\',\'Test description\',NOW(),NOW()) ON CONFLICT ("itemId", "actionName") DO UPDATE SET "actionDescription" = "excluded"."actionDescription"',
             ],
-//            [
-//                [
-//                    [
-//                        'where' => [
-//                            'actionId' => 1,
-//                            'actionName' => 'Test',
-//                        ],
-//                        'upsert' => [
-//                            'specialData' => '123456',
-//                            'description' => 'Hello',
-//                        ],
-//                    ],
-//                ], ItemActionAdditional::class, 'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
-//            ],
+            [
+                ItemActionAdditional::class,
+                [
+                    [
+                        'where' => [
+                            'actionId' => 1,
+                            'actionName' => 'Test',
+                        ],
+                        'upsert' => [
+                            'specialData' => '123456',
+                            'description' => 'Hello',
+                        ],
+                    ],
+                ],
+                ['itemActionId', 'specialData'], // Conflict
+                ['description'], // Update
+                ItemAction::class, // Selected model
+                [],
+                'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
+            ],
         ];
     }
 
