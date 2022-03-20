@@ -79,7 +79,7 @@ class HasUpsertTest extends TestCase
                 [
                     [
                         'where' => [
-                            'actionId' => 1,
+                            'itemId' => 1,
                             'actionName' => 'Test',
                         ],
                         'upsert' => [
