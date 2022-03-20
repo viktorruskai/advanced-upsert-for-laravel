@@ -26,6 +26,8 @@ class HasUpsertTest extends TestCase
 
 //        DB::spy();
 
+        DB::enableQueryLog();
+
         Item::create([
             'name' => 'Test',
             'description' => 'Test Description',
