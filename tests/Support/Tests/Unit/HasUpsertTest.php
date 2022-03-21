@@ -10,7 +10,6 @@ namespace Tests\Unit;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
-use CreateItemActionsTable;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -89,7 +88,7 @@ class HasUpsertTest extends TestCase
                         'actionDescription' => 'Test description',
                     ],
                 ],
-                CreateItemActionsTable::CUSTOM_UNIQUE_KEY_FOR_ITEM_ACTIONS, // Conflict
+                'custom_unique_key_for_item_actions', // Conflict
                 ['actionDescription'], // Update
                 null, // Selected model,
                 [],
