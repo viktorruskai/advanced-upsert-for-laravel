@@ -30,4 +30,7 @@ echo ">> Migrate"
 php artisan migrate
 
 echo ">> Start testing"
-php artisan test --coverage-text
+php artisan test
+
+echo ">> Coverage"
+./vendor/bin/phpunit --coverage-text
