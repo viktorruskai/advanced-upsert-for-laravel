@@ -4,8 +4,9 @@
 [![PHPStan](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/phpstan.yml/badge.svg)](https://github.com/viktorruskai/advanced-upsert-for-laravel/actions/workflows/phpstan.yml)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/viktorruskai/advanced-upsert-for-laravel/blob/master/LICENSE)
 
-Upsert many (1 000 000+) rows in just a seconds. Also fetch a foreign key in upsert query in order to get ID to every
-row.
+This feature is **for now only** available for PostgreSQL (in your `.env` file `DB_CONNECTION` must be set to `pgsql`).
+Upsert, based on [Wiktionary](https://en.wiktionary.org/wiki/upsert), is _an operation that inserts rows into a database table if they do not already exist, or updates them if they do_. 
+The Advanced upsert is basically the same as Laravel's upsert function, but it has one key advantage. It can fetch foreign key (id) when performing an upsert.
 
 ## ⚡️️ Installation
 
@@ -15,7 +16,7 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
 
 ## ⚙️ Usage
 
-1. Add `use HasUpsert;` in your Laravel Eloquent model (make sure )
+1. Add `use HasUpsert;` in your Laravel Eloquent model (make sure you have correct namespace)
 2. You can use it in two ways:
     - **Normal upsert**
        ```php
@@ -33,7 +34,7 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
            ['actionDescription'] // Update column 
        );
        ```
-      Generated SQL:
+      _Generated SQL:_
       ```sql
       INSERT INTO
           "itemActions" ("itemId", "actionName", "actionDescription", "actionValue", "updatedAt", "createdAt")
@@ -67,7 +68,7 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
             [...] // Any columns that should be returned (Not required) 
         );
         ```
-        Generated SQL:
+        _Generated SQL:_
         ```sql
         INSERT INTO
             "itemActionAdditional" ("itemActionId", "specialData", "description", "updatedAt", "createdAt")
@@ -93,5 +94,5 @@ $ composer require viktorruskai/advanced-upsert-for-laravel
 ## 🌍 Examples
 Check the `tests/Support/Tests/` folder for more examples. 
 
-
-* Make sure you have correct namespace
+## ⚖️ Licence
+Content of this package is open-sourced code licensed under the [MIT license]((https://github.com/viktorruskai/advanced-upsert-for-laravel/blob/master/LICENSE)).
