@@ -27,7 +27,7 @@ jobs:
         with:
           php-version: '7.4'
       - name: Install composer dependencies
-        run: composer install --no-scripts
+        run: composer install
       - name: Run command
         env:
           DB_CONNECTION: pgsql
