@@ -9,11 +9,11 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
 fi
 
 echo ">> Install Laravel"
-composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel || exit 1
+composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel --no-interaction --no-suggest --no-progress || exit 1
 cd ../laravel
 
 echo ">> Install Faker"
-composer require fakerphp/faker
+composer require fakerphp/faker --no-interaction --no-suggest --no-progress
 
 echo "Add package from Github Workflow source"
 sed -e 's|"type": "project",|&\n"repositories": [ { "type": "path", "url": "../advanced-upsert-for-laravel" } ],|' -i composer.json || exit 1
@@ -31,6 +31,3 @@ php artisan migrate
 
 echo ">> Start testing"
 php artisan test
-
-echo ">> Coverage"
-./vendor/bin/phpunit --coverage-text
