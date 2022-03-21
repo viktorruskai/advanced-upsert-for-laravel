@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace ViktorRuskai\AdvancedUpsert;
 
 use Illuminate\Database\Connection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Query\Grammars\Grammar;

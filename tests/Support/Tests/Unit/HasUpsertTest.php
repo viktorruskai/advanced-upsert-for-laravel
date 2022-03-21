@@ -1,4 +1,8 @@
 <?php
+/**
+ * @noinspection PhpIllegalPsrClassPathInspection
+ * @noinspection PhpUndefinedClassInspection
+ */
 declare(strict_types=1);
 
 namespace Tests\Unit;
@@ -96,6 +100,35 @@ class HasUpsertTest extends TestCase
                 'INSERT INTO "itemActionAdditional" ("itemActionId", "specialData", "description", "updatedAt", "createdAt") (SELECT id,\'123456\',\'Hello\',NOW(),NOW() FROM "itemActions" WHERE "itemId" = 1 AND "actionName" = \'Test\') ON CONFLICT ("itemActionId", "specialData") DO UPDATE SET "description" = "excluded"."description"',
             ],
         ];
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testInvalidConflictColumnsInUpsertFunction(): void
+    {
+        Item::create([
+            'name' => 'Test',
+            'description' => 'Test Description',
+        ]);
+
+        DB::enableQueryLog();
+
+        $itemActionMock = $this->partialMock(ItemAction::class);
+
+        $upsertFunction = new ReflectionMethod(ItemAction::class, 'upsert');
+        $upsertFunction->invoke(
+            $itemActionMock,
+            [
+                [
+                    'itemId' => 1,
+                    'actionName' => 'Test',
+                    'actionDescription' => 'Test description',
+                ],
+            ],
+            ['itemId', 'test'],
+            ['description']
+        );
     }
 
     /**

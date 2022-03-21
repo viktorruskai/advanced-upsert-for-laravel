@@ -7,7 +7,7 @@
 Upsert many (1 000 000+) rows in just a seconds. Also fetch a foreign key in upsert query in order to get ID to every
 row.
 
-## ⬇️ Installation
+## ⚡️️ Installation
 
 ```bash
 $ composer require viktorruskai/advanced-upsert-for-laravel
