@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateItemActionsTable extends Migration
 {
+
+    public const CUSTOM_UNIQUE_KEY_FOR_ITEM_ACTIONS = 'custom_unique_key_for_item_actions';
+
     /**
      * Run the migrations.
      */
@@ -22,7 +25,7 @@ class CreateItemActionsTable extends Migration
             $table->timestamp('updatedAt');
             $table->timestamp('createdAt');
 
-            $table->unique(['itemId', 'actionName']);
+            $table->unique(['itemId', 'actionName'], self::CUSTOM_UNIQUE_KEY_FOR_ITEM_ACTIONS);
         });
     }
 

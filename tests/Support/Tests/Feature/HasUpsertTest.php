@@ -1,4 +1,8 @@
 <?php
+/**
+ * @noinspection PhpIllegalPsrClassPathInspection
+ * @noinspection PhpUndefinedClassInspection
+ */
 declare(strict_types=1);
 
 namespace Tests\Feature;
@@ -6,11 +10,13 @@ namespace Tests\Feature;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
+use CreateItemActionsTable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\TestCase;
 
 /**
- * @method getObjectForTrait(string $class) @see \PHPUnit\Framework\TestCase
+ * @mixin BaseTestCase
  */
 class HasUpsertTest extends TestCase
 {
@@ -28,6 +34,33 @@ class HasUpsertTest extends TestCase
         ])->toArray();
 
         ItemAction::upsert($itemActions, ['itemId', 'actionName'], ['actionDescription', 'actionValue']);
+
+        $itemActionsFromDatabase = ItemAction::where('itemId', 1)
+            ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])
+            ->limit(-1)
+            ->get()
+            ->map(static function ($item) {
+                $item['actionValue'] = (int)$item['actionValue'];
+
+                return $item;
+            })
+            ->toArray();
+
+        $this->assertEqualsCanonicalizing($itemActions, $itemActionsFromDatabase);
+    }
+
+    public function testBasicUpsertWithConstraint(): void
+    {
+        $item = Item::create([
+            'name' => 'Test',
+            'description' => 'Test',
+        ]);
+
+        $itemActions = ItemAction::factory()->count(20)->make([
+            'itemId' => $item->getKey(),
+        ])->toArray();
+
+        ItemAction::upsert($itemActions, CreateItemActionsTable::CUSTOM_UNIQUE_KEY_FOR_ITEM_ACTIONS, ['actionDescription', 'actionValue']);
 
         $itemActionsFromDatabase = ItemAction::where('itemId', 1)
             ->select(['itemId', 'actionName', 'actionDescription', 'actionValue'])

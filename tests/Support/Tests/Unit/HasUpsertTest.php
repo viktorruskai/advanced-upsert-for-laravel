@@ -10,6 +10,7 @@ namespace Tests\Unit;
 use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
+use CreateItemActionsTable;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -78,6 +79,21 @@ class HasUpsertTest extends TestCase
                 null, // Selected model,
                 [],
                 'INSERT INTO "itemActions" ("itemId", "actionName", "actionDescription", "updatedAt", "createdAt") VALUES (1,\'Test\',\'Test description\',NOW(),NOW()) ON CONFLICT ("itemId", "actionName") DO UPDATE SET "actionDescription" = "excluded"."actionDescription"',
+            ],
+            [
+                ItemAction::class,
+                [
+                    [
+                        'itemId' => 1,
+                        'actionName' => 'Test',
+                        'actionDescription' => 'Test description',
+                    ],
+                ],
+                CreateItemActionsTable::CUSTOM_UNIQUE_KEY_FOR_ITEM_ACTIONS, // Conflict
+                ['actionDescription'], // Update
+                null, // Selected model,
+                [],
+                'INSERT INTO "itemActions" ("itemId", "actionName", "actionDescription", "updatedAt", "createdAt") VALUES (1,\'Test\',\'Test description\',NOW(),NOW()) ON CONFLICT ON CONSTRAINT custom_unique_key_for_item_actions DO UPDATE SET "actionDescription" = "excluded"."actionDescription"',
             ],
             [
                 ItemActionAdditional::class,

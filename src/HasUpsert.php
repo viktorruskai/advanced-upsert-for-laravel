@@ -26,8 +26,9 @@ trait HasUpsert
      * If `$selectModelClassName` is NULL query will contain multiple `VALUES({$value})` instead of multiple `SELECT`
      *
      * @param array<string,mixed> $items One array ($item) contains `where` and `upsert` subarrays. The WHERE clause is built from `where` subarray and the SELECT (or VALUES, if $selectModelClassName is null) clauses are built from `upsert` subarray.
+     * @param array|string $onConflict `array` -> columns, `string` -> constraint name
      */
-    public static function upsert(array $items, array $onConflictColumns, ?array $updateValues, ?string $selectModelClassName = null, array $toReturnColumns = []): array
+    public static function upsert(array $items, $onConflict, ?array $updateValues, ?string $selectModelClassName = null, array $toReturnColumns = []): array
     {
         /** @var Connection $connection */
         $connection = static::getConnectionResolver()->connection();
@@ -37,7 +38,7 @@ trait HasUpsert
 
         $sql = self::compileInsert($grammar, $query, $items, $selectModelClassName);
 
-        $sql .= ' ON CONFLICT (' . $grammar->columnize($onConflictColumns) . ')';
+        $sql .= ' ON CONFLICT ' . (is_array($onConflict) ? '(' . $grammar->columnize($onConflict) . ')' : 'ON CONSTRAINT ' . $onConflict);
 
         if ($updateValues) {
             $sql .= self::compileUpdate($updateValues, $grammar);
