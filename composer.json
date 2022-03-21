@@ -24,7 +24,6 @@
         "php": "^7.4"
     },
     "require-dev": {
-        "laravel/framework": "v8.80.0",
         "phpstan/phpstan": "^1.4",
         "phpunit/phpunit": "9.5.x-dev"
     },
