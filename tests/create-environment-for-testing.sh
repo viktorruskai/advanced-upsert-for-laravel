@@ -9,7 +9,7 @@ if [[ "$LARAVEL_VERSION" = "" ]]; then
 fi
 
 echo ">> Install Laravel"
-composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel --no-interaction --no-suggest --no-progress || exit 1
+composer create-project --prefer-dist laravel/laravel:$LARAVEL_VERSION ../laravel --no-progress || exit 1
 cd ../laravel
 
 echo ">> Install Faker"
