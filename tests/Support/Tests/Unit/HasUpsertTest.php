@@ -11,6 +11,7 @@ use App\Models\Item;
 use App\Models\ItemAction;
 use App\Models\ItemActionAdditional;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
@@ -107,6 +108,8 @@ class HasUpsertTest extends TestCase
      */
     public function testInvalidConflictColumnsInUpsertFunction(): void
     {
+        $this->expectException(QueryException::class);
+
         Item::create([
             'name' => 'Test',
             'description' => 'Test Description',
