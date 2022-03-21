@@ -30,4 +30,4 @@ echo ">> Migrate"
 php artisan migrate
 
 echo ">> Start testing"
-php artisan test --coverage
+php artisan test --coverage-text
