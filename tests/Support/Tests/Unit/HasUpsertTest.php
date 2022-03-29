@@ -32,7 +32,7 @@ class HasUpsertTest extends TestCase
      *
      * @throws ReflectionException
      */
-    public function testUpsertFunction(string $model, $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
+    public function testUpsertFunction(string $model, $testedItems, $conflictColumns, $update, ?string $selectModelClassname, $returnColumns, string $expected): void
     {
         Item::create([
             'name' => 'Test',
