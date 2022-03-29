@@ -32,7 +32,7 @@ class HasUpsertTest extends TestCase
      *
      * @throws ReflectionException
      */
-    public function testUpsertFunction(string $model, array $testedItems, $conflictColumns, $update, ?string $selectModelClassname, array $returnColumns, string $expected): void
+    public function testUpsertFunction(string $model, $testedItems, $conflictColumns, $update, ?string $selectModelClassname, $returnColumns, string $expected): void
     {
         Item::create([
             'name' => 'Test',
@@ -122,7 +122,7 @@ class HasUpsertTest extends TestCase
      * @dataProvider compileInsertDataProvider
      * @throws ReflectionException
      */
-    public function testCompileInsertFunction(array $tested, ?string $selectModelClassname, string $expected): void
+    public function testCompileInsertFunction($tested, ?string $selectModelClassname, string $expected): void
     {
         $itemActionMock = new ItemAction();
 
@@ -144,7 +144,7 @@ class HasUpsertTest extends TestCase
      * @dataProvider compileUpdateDataProvider
      * @throws ReflectionException
      */
-    public function testCompileUpdateFunction(array $tested, string $expected): void
+    public function testCompileUpdateFunction($tested, string $expected): void
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
@@ -167,10 +167,10 @@ class HasUpsertTest extends TestCase
     {
         $itemActionMock = $this->partialMock(ItemAction::class);
 
-        $values = [
+        $values = collect([
             'id',
             'actionName',
-        ];
+        ]);
 
         $compileReturnFunction = new ReflectionMethod(ItemAction::class, 'compileReturn');
         $compileReturnFunction->setAccessible(true);
