@@ -38,13 +38,13 @@ trait DataProviders
             ],
             [
                 ItemAction::class,
-                [
+                collect([
                     [
                         'itemId' => 1,
                         'actionName' => 'Test',
                         'actionDescription' => 'Test description',
                     ],
-                ],
+                ]),
                 'custom_unique_key_for_item_actions', // Conflict
                 ['actionDescription'], // Update
                 null, // Selected model,
@@ -69,7 +69,7 @@ trait DataProviders
                 ['itemActionId', 'specialData'], // Conflict
                 ['description'], // Update
                 ItemAction::class, // Selected model
-                [],
+                null,
                 'INSERT INTO "itemActionAdditional" ("itemActionId", "specialData", "description", "updatedAt", "createdAt") (SELECT id,\'123456\',\'Hello\',NOW(),NOW() FROM "itemActions" WHERE "itemId" = 1 AND "actionName" = \'Test\') ON CONFLICT ("itemActionId", "specialData") DO UPDATE SET "description" = "excluded"."description"',
             ],
         ];
