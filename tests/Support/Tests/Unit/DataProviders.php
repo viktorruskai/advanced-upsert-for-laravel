@@ -83,15 +83,15 @@ trait DataProviders
     {
         return [
             [
-                [
+                collect([
                     [
                         'actionName' => 'Test',
                         'actionDescription' => 'Test description',
                     ],
-                ], null, 'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())'
+                ]), null, 'INSERT INTO "itemActions" ("actionName", "actionDescription", "updatedAt", "createdAt") VALUES (\'Test\',\'Test description\',NOW(),NOW())'
             ],
             [
-                [
+                collect([
                     [
                         'where' => [
                             'actionId' => 1,
@@ -102,7 +102,7 @@ trait DataProviders
                             'description' => 'Hello',
                         ],
                     ],
-                ], ItemActionAdditional::class, 'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
+                ]), ItemActionAdditional::class, 'INSERT INTO "itemActions" ("specialData", "description", "updatedAt", "createdAt") (SELECT \'123456\',\'Hello\',NOW(),NOW() FROM "itemActionAdditional" WHERE "actionId" = 1 AND "actionName" = \'Test\')',
             ],
         ];
     }
@@ -110,14 +110,18 @@ trait DataProviders
     public function compileUpdateDataProvider(): array
     {
         return [
-            [[
-                'actionDescription',
-                'testField' => 1,
-            ], ' DO UPDATE SET "actionDescription" = "excluded"."actionDescription", "testField" = ?'],
-            [[
-                'actionDescription' => 'Test 123',
-                'testField',
-            ], ' DO UPDATE SET "actionDescription" = ?, "testField" = "excluded"."testField"'],
+            [
+                collect([
+                    'actionDescription',
+                    'testField' => 1,
+                ]), ' DO UPDATE SET "actionDescription" = "excluded"."actionDescription", "testField" = ?'
+            ],
+            [
+                collect([
+                    'actionDescription' => 'Test 123',
+                    'testField',
+                ]), ' DO UPDATE SET "actionDescription" = ?, "testField" = "excluded"."testField"'
+            ],
         ];
     }
 
